@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SocialSnap - Share Your Moments</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -13,106 +14,631 @@
         }
 
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #87CEEB 0%, #1E90FF 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 20px;
         }
 
+        /* Login Page */
         .login-container {
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
             padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            width: 400px;
+            border-radius: 25px;
+            box-shadow: 0 20px 60px rgba(30, 144, 255, 0.3);
+            width: 420px;
             text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .logo {
             font-size: 48px;
-            color: #FF6B8B;
+            color: #1E90FF;
             margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
         }
 
         .logo i {
-            animation: pulse 2s infinite;
+            animation: float 3s ease-in-out infinite;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         h1 {
-            color: #333;
-            margin-bottom: 30px;
-            font-size: 32px;
+            color: #1E3A8A;
+            margin-bottom: 10px;
+            font-size: 36px;
+            font-weight: 800;
         }
 
         .tagline {
-            color: #666;
+            color: #4682B4;
             margin-bottom: 30px;
-            font-size: 18px;
+            font-size: 16px;
+            font-weight: 500;
         }
 
         input {
             width: 100%;
             padding: 15px;
-            margin: 10px 0;
-            border: 2px solid #eee;
-            border-radius: 10px;
+            margin: 12px 0;
+            border: 2px solid #E0F2FF;
+            border-radius: 12px;
             font-size: 16px;
+            background: #F8FBFF;
             transition: all 0.3s;
         }
 
         input:focus {
-            border-color: #FF6B8B;
+            border-color: #1E90FF;
             outline: none;
-            box-shadow: 0 0 0 3px rgba(255,107,139,0.2);
+            box-shadow: 0 0 0 4px rgba(30, 144, 255, 0.2);
+            background: white;
         }
 
         .login-btn {
             width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #FF6B8B 0%, #FF8E53 100%);
+            padding: 16px;
+            background: linear-gradient(135deg, #1E90FF 0%, #00BFFF 100%);
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             font-size: 18px;
-            font-weight: bold;
+            font-weight: 700;
             cursor: pointer;
             margin-top: 20px;
-            transition: transform 0.3s;
+            transition: all 0.3s;
+            letter-spacing: 1px;
         }
 
         .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(255,107,139,0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(30, 144, 255, 0.4);
+            background: linear-gradient(135deg, #00BFFF 0%, #1E90FF 100%);
         }
 
         .features {
             display: flex;
             justify-content: space-around;
             margin-top: 30px;
-            color: #666;
+            gap: 15px;
         }
 
         .feature {
             text-align: center;
+            padding: 15px;
+            border-radius: 12px;
+            background: #F0F8FF;
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .feature:hover {
+            background: white;
+            border-color: #1E90FF;
+            transform: translateY(-5px);
         }
 
         .feature i {
-            font-size: 24px;
-            color: #6C63FF;
+            font-size: 28px;
+            color: #1E90FF;
             margin-bottom: 10px;
         }
+
+        .feature div {
+            color: #2C5282;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        /* Main App (Hidden Initially) */
+        .app-container {
+            display: none;
+            width: 100%;
+            max-width: 1200px;
+            height: 90vh;
+            background: white;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 25px 75px rgba(30, 144, 255, 0.3);
+        }
+
+        /* Navbar */
+        .navbar {
+            background: linear-gradient(135deg, #1E90FF 0%, #00BFFF 100%);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        .nav-logo {
+            font-size: 28px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-search {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            width: 300px;
+            color: white;
+            font-size: 14px;
+        }
+
+        .nav-search::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 25px;
+            font-size: 22px;
+        }
+
+        .nav-icons i {
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 50%;
+            transition: background 0.3s;
+        }
+
+        .nav-icons i:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Main Content */
+        .main-content {
+            display: flex;
+            height: calc(100% - 70px);
+        }
+
+        /* Left Sidebar */
+        .sidebar {
+            width: 280px;
+            background: #F8FBFF;
+            border-right: 1px solid #E0F2FF;
+            padding: 25px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #E0F2FF;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1E90FF, #00BFFF);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            border: 3px solid white;
+            box-shadow: 0 5px 15px rgba(30, 144, 255, 0.3);
+        }
+
+        .user-info h3 {
+            color: #1E3A8A;
+            margin-bottom: 5px;
+        }
+
+        .user-info p {
+            color: #4682B4;
+            font-size: 14px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin: 12px 0;
+            padding: 15px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #2C5282;
+            font-weight: 600;
+        }
+
+        .sidebar-menu li:hover, .sidebar-menu li.active {
+            background: #E0F2FF;
+            color: #1E90FF;
+        }
+
+        .sidebar-menu li i {
+            font-size: 20px;
+            width: 24px;
+        }
+
+        /* Feed Area */
+        .feed-area {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+            background: #F8FBFF;
+        }
+
+        /* Stories Section */
+        .stories {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #E0F2FF;
+            overflow-x: auto;
+        }
+
+        .story {
+            text-align: center;
+            cursor: pointer;
+            min-width: 80px;
+        }
+
+        .story-circle {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1E90FF, #00BFFF);
+            padding: 3px;
+            margin: 0 auto 10px;
+        }
+
+        .story-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #1E90FF;
+        }
+
+        .add-story {
+            background: linear-gradient(135deg, #FF6B8B, #FF8E53);
+        }
+
+        .add-story .story-inner {
+            background: linear-gradient(135deg, #FF6B8B, #FF8E53);
+            color: white;
+        }
+
+        .story-username {
+            font-size: 12px;
+            color: #2C5282;
+            font-weight: 500;
+        }
+
+        /* Create Post */
+        .create-post {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(30, 144, 255, 0.1);
+        }
+
+        .post-input {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .post-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1E90FF, #00BFFF);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .post-input input {
+            flex: 1;
+            margin: 0;
+            background: #F8FBFF;
+        }
+
+        .post-actions {
+            display: flex;
+            justify-content: space-around;
+            padding-top: 15px;
+            border-top: 1px solid #E0F2FF;
+        }
+
+        .post-action {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.3s;
+            color: #4682B4;
+            font-weight: 600;
+        }
+
+        .post-action:hover {
+            background: #E0F2FF;
+        }
+
+        /* Posts */
+        .posts {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .post {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(30, 144, 255, 0.1);
+        }
+
+        .post-header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-user {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .post-user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FF6B8B, #FF8E53);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .post-user-info h4 {
+            color: #1E3A8A;
+            margin-bottom: 5px;
+        }
+
+        .post-user-info p {
+            color: #4682B4;
+            font-size: 13px;
+        }
+
+        .follow-btn {
+            background: #1E90FF;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .follow-btn:hover {
+            background: #00BFFF;
+            transform: translateY(-2px);
+        }
+
+        .following {
+            background: #E0F2FF;
+            color: #1E90FF;
+        }
+
+        .post-image {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, #87CEEB, #1E90FF);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .post-actions-bar {
+            padding: 15px 20px;
+            display: flex;
+            gap: 20px;
+            font-size: 24px;
+            color: #4682B4;
+        }
+
+        .post-actions-bar i {
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .post-actions-bar i:hover {
+            color: #1E90FF;
+        }
+
+        .liked {
+            color: #FF6B8B;
+        }
+
+        .post-stats {
+            padding: 0 20px;
+            color: #2C5282;
+            font-weight: 600;
+        }
+
+        .post-caption {
+            padding: 15px 20px;
+            color: #1E3A8A;
+            border-top: 1px solid #E0F2FF;
+        }
+
+        /* Chat Section */
+        .chat-section {
+            display: none;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .chat-header {
+            padding: 20px;
+            background: linear-gradient(135deg, #1E90FF 0%, #00BFFF 100%);
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #F8FBFF;
+        }
+
+        .message {
+            margin: 15px 0;
+            max-width: 70%;
+            clear: both;
+        }
+
+        .message.sent {
+            float: right;
+            background: linear-gradient(135deg, #1E90FF, #00BFFF);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 18px 18px 0 18px;
+        }
+
+        .message.received {
+            float: left;
+            background: white;
+            color: #1E3A8A;
+            padding: 12px 20px;
+            border-radius: 18px 18px 18px 0;
+            box-shadow: 0 3px 15px rgba(30, 144, 255, 0.1);
+        }
+
+        .chat-input {
+            padding: 20px;
+            background: white;
+            display: flex;
+            gap: 15px;
+            border-top: 1px solid #E0F2FF;
+        }
+
+        .chat-input input {
+            flex: 1;
+            margin: 0;
+        }
+
+        .send-btn {
+            background: #1E90FF;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid #E0F2FF;
+            }
+            
+            .nav-search {
+                width: 200px;
+            }
+        }
+
+        /* Loading Animation */
+        .loader {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: #1E90FF;
+        }
+
+        .loader i {
+            font-size: 24px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #1E90FF, #00BFFF);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(30, 144, 255, 0.3);
+            display: none;
+            z-index: 1000;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="login-container">
+    <!-- Login Page -->
+    <div id="loginPage" class="login-container">
         <div class="logo">
             <i class="fas fa-camera-retro"></i>
         </div>
@@ -120,35 +646,532 @@
         <h1>SocialSnap</h1>
         <p class="tagline">Where moments become memories</p>
         
-        <input type="text" placeholder="Username or email">
-        <input type="password" placeholder="Password">
+        <input type="text" id="username" placeholder="Username or email" value="demo_user">
+        <input type="password" id="password" placeholder="Password" value="123456">
         
-        <button class="login-btn">Snap In</button>
+        <button class="login-btn" id="loginBtn">Login</button>
         
         <div class="features">
-            <div class="feature">
+            <div class="feature" id="shareBtn">
                 <i class="fas fa-camera"></i>
                 <div>Share Photos</div>
             </div>
-            <div class="feature">
+            <div class="feature" id="connectBtn">
                 <i class="fas fa-users"></i>
                 <div>Connect</div>
             </div>
-            <div class="feature">
+            <div class="feature" id="chatBtn">
                 <i class="fas fa-comment"></i>
                 <div>Chat</div>
             </div>
         </div>
     </div>
 
+    <!-- Main App -->
+    <div id="mainApp" class="app-container">
+        <!-- Navbar -->
+        <nav class="navbar">
+            <div class="nav-logo">
+                <i class="fas fa-camera-retro"></i>
+                SocialSnap
+            </div>
+            
+            <input type="text" class="nav-search" placeholder="Search people, photos, and more...">
+            
+            <div class="nav-icons">
+                <i class="fas fa-home" onclick="showSection('feed')"></i>
+                <i class="fas fa-comment" onclick="showSection('chat')"></i>
+                <i class="fas fa-plus-square" onclick="createNewPost()"></i>
+                <i class="fas fa-user" onclick="showProfile()"></i>
+                <i class="fas fa-sign-out-alt" onclick="logout()"></i>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="user-profile">
+                    <div class="user-avatar" id="userAvatar">U</div>
+                    <div class="user-info">
+                        <h3 id="userName">Demo User</h3>
+                        <p id="userEmail">demo@socialsnap.com</p>
+                    </div>
+                </div>
+
+                <ul class="sidebar-menu">
+                    <li class="active" onclick="showSection('feed')">
+                        <i class="fas fa-home"></i> Home Feed
+                    </li>
+                    <li onclick="showSection('stories')">
+                        <i class="fas fa-history"></i> Stories
+                    </li>
+                    <li onclick="showSection('explore')">
+                        <i class="fas fa-compass"></i> Explore
+                    </li>
+                    <li onclick="showSection('chat')">
+                        <i class="fas fa-comment"></i> Messages
+                        <span style="margin-left: auto; background: #FF6B8B; color: white; padding: 3px 8px; border-radius: 10px; font-size: 12px;">3</span>
+                    </li>
+                    <li onclick="showSection('notifications')">
+                        <i class="fas fa-bell"></i> Notifications
+                        <span style="margin-left: auto; background: #1E90FF; color: white; padding: 3px 8px; border-radius: 10px; font-size: 12px;">5</span>
+                    </li>
+                    <li onclick="showSection('profile')">
+                        <i class="fas fa-user"></i> My Profile
+                    </li>
+                    <li onclick="createNewStory()">
+                        <i class="fas fa-plus-circle"></i> Create Story
+                    </li>
+                    <li onclick="showSection('settings')">
+                        <i class="fas fa-cog"></i> Settings
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Feed Area -->
+            <div class="feed-area" id="feedSection">
+                <!-- Stories Section -->
+                <div class="stories">
+                    <div class="story add-story" onclick="createNewStory()">
+                        <div class="story-circle">
+                            <div class="story-inner">
+                                <i class="fas fa-plus"></i>
+                            </div>
+                        </div>
+                        <div class="story-username">Add Story</div>
+                    </div>
+                    <!-- Stories will be loaded here -->
+                </div>
+
+                <!-- Create Post -->
+                <div class="create-post">
+                    <div class="post-input">
+                        <div class="post-avatar">U</div>
+                        <input type="text" id="postCaption" placeholder="What's on your mind?">
+                    </div>
+                    <div class="post-actions">
+                        <div class="post-action" onclick="uploadPhoto()">
+                            <i class="fas fa-image" style="color: #1E90FF;"></i> Photo/Video
+                        </div>
+                        <div class="post-action" onclick="tagFriends()">
+                            <i class="fas fa-user-tag" style="color: #FF6B8B;"></i> Tag Friends
+                        </div>
+                        <div class="post-action" onclick="addFeeling()">
+                            <i class="fas fa-smile" style="color: #FFD700;"></i> Feeling
+                        </div>
+                        <button class="post-action" style="background: #1E90FF; color: white; border: none;" onclick="sharePost()">
+                            Share
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Posts -->
+                <div class="posts" id="postsContainer">
+                    <!-- Posts will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Chat Section -->
+            <div class="chat-section" id="chatSection">
+                <div class="chat-header">
+                    <i class="fas fa-comment"></i> Messages
+                </div>
+                <div class="chat-messages" id="chatMessages">
+                    <!-- Messages will be loaded here -->
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="messageInput" placeholder="Type a message...">
+                    <button class="send-btn" onclick="sendMessage()">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <i class="fas fa-spinner"></i> Loading...
+    </div>
+
     <script>
-        document.querySelector('.login-btn').addEventListener('click', function() {
-            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Snapping In...';
-            setTimeout(() => {
-                alert('Welcome to SocialSnap! Explore amazing features.');
-                this.innerHTML = 'Snap In';
-            }, 1500);
+        // Fake Data
+        const fakeProfiles = [
+            { id: 1, name: "Alex Johnson", username: "alex_j", avatar: "AJ", color: "#FF6B8B", posts: 42, followers: 1200, following: 450 },
+            { id: 2, name: "Sarah Miller", username: "sarah_m", avatar: "SM", color: "#1E90FF", posts: 28, followers: 890, following: 320 },
+            { id: 3, name: "Mike Wilson", username: "mike_w", avatar: "MW", color: "#32CD32", posts: 156, followers: 5600, following: 2100 },
+            { id: 4, name: "Emma Davis", username: "emma_d", avatar: "ED", color: "#FFA500", posts: 67, followers: 3400, following: 1200 },
+            { id: 5, name: "James Brown", username: "james_b", avatar: "JB", color: "#9370DB", posts: 91, followers: 2100, following: 890 }
+        ];
+
+        const fakePosts = [
+            { id: 1, userId: 2, caption: "Beautiful sunset at the beach today! 🌅 #vacation #sunset", likes: 245, comments: 32, time: "2 hours ago", isLiked: false, isFollowing: false },
+            { id: 2, userId: 3, caption: "Just launched my new project! 🚀 So excited to share this journey with you all. #coding #webdev", likes: 512, comments: 89, time: "5 hours ago", isLiked: true, isFollowing: true },
+            { id: 3, userId: 1, caption: "Coffee and code ☕ Perfect combination for a productive day! #programming #developer", likes: 189, comments: 21, time: "1 day ago", isLiked: false, isFollowing: true },
+            { id: 4, userId: 5, caption: "Weekend vibes with friends! 🎉 Life is all about these moments. #friends #weekend", likes: 324, comments: 45, time: "2 days ago", isLiked: true, isFollowing: false },
+            { id: 5, userId: 4, caption: "Just finished reading an amazing book! 📚 What are you reading these days? #books #reading", likes: 167, comments: 28, time: "3 days ago", isLiked: false, isFollowing: true }
+        ];
+
+        const fakeStories = [
+            { id: 1, userId: 1, username: "alex_j", seen: false },
+            { id: 2, userId: 2, username: "sarah_m", seen: true },
+            { id: 3, userId: 3, username: "mike_w", seen: false },
+            { id: 4, userId: 4, username: "emma_d", seen: true },
+            { id: 5, userId: 5, username: "james_b", seen: false }
+        ];
+
+        const fakeMessages = [
+            { id: 1, sender: 2, text: "Hey! How are you?", time: "10:30 AM", sent: false },
+            { id: 2, sender: 0, text: "I'm good! Just working on the SocialSnap project", time: "10:32 AM", sent: true },
+            { id: 3, sender: 2, text: "That's awesome! Can I see the demo?", time: "10:35 AM", sent: false },
+            { id: 4, sender: 0, text: "Sure! I'll share the link with you", time: "10:36 AM", sent: true },
+            { id: 5, sender: 2, text: "Thanks! Looking forward to it 😊", time: "10:40 AM", sent: false }
+        ];
+
+        // Current User
+        let currentUser = {
+            id: 0,
+            name: "Demo User",
+            username: "demo_user",
+            avatar: "U",
+            color: "#1E90FF"
+        };
+
+        // DOM Elements
+        const loginPage = document.getElementById('loginPage');
+        const mainApp = document.getElementById('mainApp');
+        const loginBtn = document.getElementById('loginBtn');
+        const feedSection = document.getElementById('feedSection');
+        const chatSection = document.getElementById('chatSection');
+        const postsContainer = document.getElementById('postsContainer');
+        const storiesContainer = document.querySelector('.stories');
+        const chatMessages = document.getElementById('chatMessages');
+        const notification = document.getElementById('notification');
+        const loader = document.getElementById('loader');
+
+        // Button Functionality
+        document.getElementById('shareBtn').addEventListener('click', () => {
+            showNotification("Share Photos feature coming soon!");
         });
+
+        document.getElementById('connectBtn').addEventListener('click', () => {
+            showNotification("Connect with friends feature coming soon!");
+        });
+
+        document.getElementById('chatBtn').addEventListener('click', () => {
+            showNotification("Chat feature will be available after login!");
+        });
+
+        // Login Function
+        loginBtn.addEventListener('click', () => {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if(username && password) {
+                showLoader();
+                setTimeout(() => {
+                    loginPage.style.display = 'none';
+                    mainApp.style.display = 'block';
+                    loadAppData();
+                    hideLoader();
+                    showNotification("Welcome to SocialSnap! Explore the features.");
+                }, 1500);
+            } else {
+                showNotification("Please enter username and password");
+            }
+        });
+
+        // Load App Data
+        function loadAppData() {
+            // Update user info
+            document.getElementById('userName').textContent = currentUser.name;
+            document.getElementById('userEmail').textContent = currentUser.username + "@socialsnap.com";
+            document.getElementById('userAvatar').textContent = currentUser.avatar;
+            document.getElementById('userAvatar').style.background = currentUser.color;
+
+            // Load stories
+            loadStories();
+            
+            // Load posts
+            loadPosts();
+            
+            // Load messages
+            loadMessages();
+        }
+
+        // Load Stories
+        function loadStories() {
+            storiesContainer.innerHTML = `
+                <div class="story add-story" onclick="createNewStory()">
+                    <div class="story-circle">
+                        <div class="story-inner">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                    </div>
+                    <div class="story-username">Add Story</div>
+                </div>
+            `;
+            
+            fakeStories.forEach(story => {
+                const profile = fakeProfiles.find(p => p.id === story.userId);
+                const storyHTML = `
+                    <div class="story" onclick="viewStory(${story.id})">
+                        <div class="story-circle" style="background: linear-gradient(135deg, ${profile.color}, #FFFFFF);">
+                            <div class="story-inner" style="background: white; color: ${profile.color};">
+                                ${profile.avatar}
+                            </div>
+                        </div>
+                        <div class="story-username">${story.username}</div>
+                    </div>
+                `;
+                storiesContainer.innerHTML += storyHTML;
+            });
+        }
+
+        // Load Posts
+        function loadPosts() {
+            postsContainer.innerHTML = '';
+            
+            fakePosts.forEach(post => {
+                const profile = fakeProfiles.find(p => p.id === post.userId);
+                const postHTML = `
+                    <div class="post">
+                        <div class="post-header">
+                            <div class="post-user">
+                                <div class="post-user-avatar" style="background: linear-gradient(135deg, ${profile.color}, #FFFFFF);">
+                                    ${profile.avatar}
+                                </div>
+                                <div class="post-user-info">
+                                    <h4>${profile.name}</h4>
+                                    <p>@${profile.username} • ${post.time}</p>
+                                </div>
+                            </div>
+                            <button class="follow-btn ${post.isFollowing ? 'following' : ''}" 
+                                    onclick="toggleFollow(${post.userId}, this)">
+                                ${post.isFollowing ? 'Following' : 'Follow'}
+                            </button>
+                        </div>
+                        
+                        <div class="post-image" style="background: linear-gradient(135deg, ${profile.color}40, #FFFFFF); color: ${profile.color};">
+                            ${profile.name}'s Photo
+                        </div>
+                        
+                        <div class="post-actions-bar">
+                            <i class="fas fa-heart ${post.isLiked ? 'liked' : ''}" 
+                               onclick="toggleLike(${post.id}, this)"></i>
+                            <i class="fas fa-comment" onclick="addComment(${post.id})"></i>
+                            <i class="fas fa-share" onclick="sharePost(${post.id})"></i>
+                            <i class="fas fa-bookmark" style="margin-left: auto;" onclick="savePost(${post.id})"></i>
+                        </div>
+                        
+                        <div class="post-stats">
+                            ${post.likes} likes • ${post.comments} comments
+                        </div>
+                        
+                        <div class="post-caption">
+                            <strong>@${profile.username}</strong> ${post.caption}
+                        </div>
+                    </div>
+                `;
+                postsContainer.innerHTML += postHTML;
+            });
+        }
+
+        // Load Messages
+        function loadMessages() {
+            chatMessages.innerHTML = '';
+            
+            fakeMessages.forEach(msg => {
+                if(msg.sender === 0) {
+                    // Current user message
+                    chatMessages.innerHTML += `
+                        <div class="message sent">
+                            ${msg.text}
+                            <div style="font-size: 11px; margin-top: 5px; opacity: 0.8;">${msg.time}</div>
+                        </div>
+                    `;
+                } else {
+                    // Other user message
+                    const profile = fakeProfiles.find(p => p.id === msg.sender);
+                    chatMessages.innerHTML += `
+                        <div class="message received">
+                            ${msg.text}
+                            <div style="font-size: 11px; margin-top: 5px; opacity: 0.8;">${msg.time}</div>
+                        </div>
+                    `;
+                }
+            });
+        }
+
+        // Show/Hide Sections
+        function showSection(section) {
+            if(section === 'feed') {
+                feedSection.style.display = 'block';
+                chatSection.style.display = 'none';
+                document.querySelectorAll('.sidebar-menu li').forEach(li => li.classList.remove('active'));
+                document.querySelectorAll('.sidebar-menu li')[0].classList.add('active');
+            } else if(section === 'chat') {
+                feedSection.style.display = 'none';
+                chatSection.style.display = 'flex';
+                document.querySelectorAll('.sidebar-menu li').forEach(li => li.classList.remove('active'));
+                document.querySelectorAll('.sidebar-menu li')[3].classList.add('active');
+            }
+        }
+
+        // Functions
+        function createNewStory() {
+            showNotification("Story upload feature coming soon!");
+        }
+
+        function createNewPost() {
+            document.getElementById('postCaption').focus();
+            showNotification("Create new post - type your caption above!");
+        }
+
+        function uploadPhoto() {
+            showNotification("Photo upload feature coming soon!");
+        }
+
+        function tagFriends() {
+            showNotification("Tag friends feature coming soon!");
+        }
+
+        function addFeeling() {
+            showNotification("Add feeling feature coming soon!");
+        }
+
+        function sharePost() {
+            const caption = document.getElementById('postCaption').value;
+            if(caption) {
+                showNotification("Post shared successfully!");
+                document.getElementById('postCaption').value = '';
+            } else {
+                showNotification("Please write something to share!");
+            }
+        }
+
+        function viewStory(storyId) {
+            showNotification(`Viewing story ${storyId}`);
+        }
+
+        function toggleFollow(userId, button) {
+            const profile = fakeProfiles.find(p => p.id === userId);
+            if(button.classList.contains('following')) {
+                button.classList.remove('following');
+                button.textContent = 'Follow';
+                showNotification(`Unfollowed ${profile.name}`);
+            } else {
+                button.classList.add('following');
+                button.textContent = 'Following';
+                showNotification(`Started following ${profile.name}`);
+            }
+        }
+
+        function toggleLike(postId, icon) {
+            const post = fakePosts.find(p => p.id === postId);
+            if(icon.classList.contains('liked')) {
+                icon.classList.remove('liked');
+                post.likes--;
+                showNotification("Like removed");
+            } else {
+                icon.classList.add('liked');
+                post.likes++;
+                showNotification("Post liked!");
+            }
+            updatePostStats(postId);
+        }
+
+        function updatePostStats(postId) {
+            const post = fakePosts.find(p => p.id === postId);
+            // In real app, update via API
+        }
+
+        function addComment(postId) {
+            const comment = prompt("Add a comment:");
+            if(comment) {
+                showNotification("Comment added!");
+            }
+        }
+
+        function savePost(postId) {
+            showNotification("Post saved to your collection!");
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            if(input.value.trim()) {
+                const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                chatMessages.innerHTML += `
+                    <div class="message sent">
+                        ${input.value}
+                        <div style="font-size: 11px; margin-top: 5px; opacity: 0.8;">${time}</div>
+                    </div>
+                `;
+                input.value = '';
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // Auto reply after 1 second
+                setTimeout(() => {
+                    const replies = [
+                        "That's interesting!",
+                        "Tell me more about that",
+                        "I agree with you",
+                        "Thanks for sharing!"
+                    ];
+                    const randomReply = replies[Math.floor(Math.random() * replies.length)];
+                    const replyTime = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                    
+                    chatMessages.innerHTML += `
+                        <div class="message received">
+                            ${randomReply}
+                            <div style="font-size: 11px; margin-top: 5px; opacity: 0.8;">${replyTime}</div>
+                        </div>
+                    `;
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 1000);
+            }
+        }
+
+        function showProfile() {
+            showNotification("Profile page coming soon!");
+        }
+
+        function logout() {
+            if(confirm("Are you sure you want to logout?")) {
+                mainApp.style.display = 'none';
+                loginPage.style.display = 'block';
+                showNotification("Logged out successfully");
+            }
+        }
+
+        // Utility Functions
+        function showNotification(message) {
+            notification.textContent = message;
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
+        function showLoader() {
+            loader.style.display = 'block';
+        }
+
+        function hideLoader() {
+            loader.style.display = 'none';
+        }
+
+        // Allow login with Enter key
+        document.getElementById('password').addEventListener('keypress', function(e) {
+            if(e.key === 'Enter') {
+                loginBtn.click();
+            }
+        });
+
+        // Initialize
+        showNotification("Welcome to SocialSnap! Use username: demo_user, password: 123456");
     </script>
 </body>
 </html>
