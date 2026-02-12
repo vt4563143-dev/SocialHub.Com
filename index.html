@@ -3,100 +3,502 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A1 Madaan Associates Real Estate</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>A1 Madaan Associates – Real Estate Indirapuram</title>
+    <!-- Font Awesome 5 (free icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        /* Header */
+        header {
+            background: #0a3d62;
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .logo span {
+            color: #f39c12;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #f39c12;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(rgba(10,61,98,0.9), rgba(10,61,98,0.8)), url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #f39c12;
+            color: #0a3d62;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #e67e22;
+            color: white;
+        }
+
+        /* Services */
+        .services {
+            padding: 4rem 0;
+            background: white;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h3 {
+            font-size: 2.2rem;
+            color: #0a3d62;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title p {
+            color: #777;
+            font-size: 1.1rem;
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: #f8f9fa;
+            padding: 2rem 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .service-card i {
+            font-size: 2.8rem;
+            color: #f39c12;
+            margin-bottom: 1rem;
+        }
+
+        .service-card h4 {
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: #0a3d62;
+        }
+
+        .service-card p {
+            color: #666;
+        }
+
+        /* Featured Properties */
+        .properties {
+            padding: 4rem 0;
+            background: #f1f5f9;
+        }
+
+        .property-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .property-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+
+        .property-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .property-img {
+            height: 220px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .property-info {
+            padding: 1.5rem;
+        }
+
+        .property-info h4 {
+            font-size: 1.3rem;
+            color: #0a3d62;
+            margin-bottom: 0.5rem;
+        }
+
+        .property-info p {
+            color: #777;
+            margin-bottom: 0.5rem;
+        }
+
+        .price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #27ae60;
+            margin: 0.8rem 0;
+        }
+
+        /* Contact */
+        .contact {
+            padding: 4rem 0;
+            background: white;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .contact-info h4 {
+            font-size: 1.8rem;
+            color: #0a3d62;
+            margin-bottom: 1rem;
+        }
+
+        .contact-info p {
+            margin-bottom: 1.5rem;
+            color: #555;
+        }
+
+        .contact-detail {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .contact-detail i {
+            font-size: 1.3rem;
+            color: #f39c12;
+            width: 35px;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .contact-form textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Footer */
+        footer {
+            background: #0a3d62;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .social a {
+            color: white;
+            margin-left: 1rem;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .social a:hover {
+            color: #f39c12;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+                margin-top: 1rem;
+                display: none;
+                width: 100%;
+            }
+
+            nav ul.active {
+                display: flex;
+            }
+
+            .menu-toggle {
+                display: block;
+                position: absolute;
+                top: 1.2rem;
+                right: 1rem;
+            }
+
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
-        <div class="container">
-            <h1>A1 Madaan Associates Real Estate</h1>
+        <div class="container header-content">
+            <div class="logo">
+                <h1>A1 <span>Madaan</span></h1>
+            </div>
             <nav>
-                <ul>
+                <div class="menu-toggle" id="mobile-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <ul id="nav-list">
                     <li><a href="#home">Home</a></li>
                     <li><a href="#services">Services</a></li>
                     <li><a href="#properties">Properties</a></li>
-                    <li><a href="#about">About Us</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
+    <!-- Hero / Home -->
     <section id="home" class="hero">
         <div class="container">
-            <h2>Your Trusted Partner in Property Sales, Purchases, and Rentals</h2>
-            <p>Discover your dream home or investment property with A1 Madaan Associates.</p>
-            <a href="#contact" class="btn">Get Started</a>
+            <h2>Your Trusted Real Estate Partner</h2>
+            <p>Residential & Commercial properties in Indirapuram, Ghaziabad. Buying, selling, renting – we make it simple.</p>
+            <a href="#contact" class="btn">Get In Touch</a>
         </div>
     </section>
 
-    <section id="services">
+    <!-- Services -->
+    <section id="services" class="services">
         <div class="container">
-            <h2>Our Services</h2>
+            <div class="section-title">
+                <h3>Our Services</h3>
+                <p>Comprehensive real estate solutions tailored to you</p>
+            </div>
             <div class="service-grid">
-                <div class="service">
-                    <h3>Property Sales</h3>
-                    <p>We help you sell your property quickly and at the best price.</p>
+                <div class="service-card">
+                    <i class="fas fa-home"></i>
+                    <h4>Buy & Sell</h4>
+                    <p>Residential & commercial properties. Expert negotiation and best deals.</p>
                 </div>
-                <div class="service">
-                    <h3>Property Purchases</h3>
-                    <p>Find and secure the perfect property for your needs.</p>
+                <div class="service-card">
+                    <i class="fas fa-key"></i>
+                    <h4>Rentals & Lease</h4>
+                    <p>Fully furnished, semi-furnished. Quick tenant/landlord matching.</p>
                 </div>
-                <div class="service">
-                    <h3>Rentals</h3>
-                    <p>Explore rental options for residential or commercial spaces.</p>
+                <div class="service-card">
+                    <i class="fas fa-file-signature"></i>
+                    <h4>Legal Assistance</h4>
+                    <p>Sale agreements, registry, documentation – we handle everything.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h4>Property Valuation</h4>
+                    <p>Free market analysis and accurate price estimates.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="properties">
+    <!-- Featured Properties -->
+    <section id="properties" class="properties">
         <div class="container">
-            <h2>Featured Properties</h2>
+            <div class="section-title">
+                <h3>Featured Properties</h3>
+                <p>Handpicked properties in Indirapuram & nearby</p>
+            </div>
             <div class="property-grid">
-                <div class="property">
-                    <img src="https://via.placeholder.com/300x200?text=Property+1" alt="Property 1">
-                    <h3>3-Bedroom Apartment</h3>
-                    <p>Location: City Center | Price: $500,000</p>
-                    <a href="#" class="btn">View Details</a>
+                <div class="property-card">
+                    <div class="property-img" style="background-image: url('https://images.unsplash.com/photo-1580587771525-78b9dba3b914?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="property-info">
+                        <h4>3 BHK Luxurious Apartment</h4>
+                        <p><i class="fas fa-map-marker-alt"></i> Vaishali, Ghaziabad</p>
+                        <p class="price">₹1.2 Cr</p>
+                        <a href="#" class="btn" style="background: #0a3d62; color: white;">View Details</a>
+                    </div>
                 </div>
-                <div class="property">
-                    <img src="https://via.placeholder.com/300x200?text=Property+2" alt="Property 2">
-                    <h3>Commercial Space</h3>
-                    <p>Location: Downtown | Rent: $2,000/month</p>
-                    <a href="#" class="btn">View Details</a>
+                <div class="property-card">
+                    <div class="property-img" style="background-image: url('https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="property-info">
+                        <h4>Commercial Shop</h4>
+                        <p><i class="fas fa-map-marker-alt"></i> Shipra Mall, Indirapuram</p>
+                        <p class="price">₹85 Lacs</p>
+                        <a href="#" class="btn" style="background: #0a3d62; color: white;">View Details</a>
+                    </div>
                 </div>
-                <!-- Add more properties as needed -->
+                <div class="property-card">
+                    <div class="property-img" style="background-image: url('https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="property-info">
+                        <h4>2 BHK Independent Floor</h4>
+                        <p><i class="fas fa-map-marker-alt"></i> Kaushambi, Ghaziabad</p>
+                        <p class="price">₹65 Lacs</p>
+                        <a href="#" class="btn" style="background: #0a3d62; color: white;">View Details</a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <section id="about">
+    <!-- Contact -->
+    <section id="contact" class="contact">
         <div class="container">
-            <h2>About Us</h2>
-            <p>A1 Madaan Associates is a leading real estate firm specializing in sales, purchases, and rentals. With years of experience, we provide personalized service to help you achieve your property goals.</p>
-        </div>
-    </section>
-
-    <section id="contact">
-        <div class="container">
-            <h2>Contact Us</h2>
-            <form id="contact-form">
-                <input type="text" id="name" placeholder="Your Name" required>
-                <input type="email" id="email" placeholder="Your Email" required>
-                <textarea id="message" placeholder="Your Message" required></textarea>
-                <button type="submit" class="btn">Send Message</button>
-            </form>
-            <p>Phone: +1 (123) 456-7890 | Email: info@a1madaan.com</p>
+            <div class="section-title">
+                <h3>Contact Us</h3>
+                <p>We'd love to hear from you</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h4>A1 Madaan Associates</h4>
+                    <p>Office No. 405, 4th Floor, Plot No. 9, Sector 62, Indirapuram, Ghaziabad – 201014</p>
+                    <div class="contact-detail">
+                        <i class="fas fa-phone-alt"></i>
+                        <span>+91 98765 43210</span>
+                    </div>
+                    <div class="contact-detail">
+                        <i class="fas fa-envelope"></i>
+                        <span>info@a1madaan.com</span>
+                    </div>
+                    <div class="contact-detail">
+                        <i class="fas fa-clock"></i>
+                        <span>Mon-Sat: 10:00 AM – 7:00 PM</span>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form action="#" method="post">
+                        <input type="text" placeholder="Your Name" required>
+                        <input type="email" placeholder="Email Address" required>
+                        <input type="text" placeholder="Phone Number">
+                        <textarea placeholder="I'm interested in..."></textarea>
+                        <button type="submit" class="btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </section>
 
     <footer>
-        <div class="container">
-            <p>&copy; 2023 A1 Madaan Associates Real Estate. All rights reserved.</p>
+        <div class="container footer-content">
+            <p>&copy; 2025 A1 Madaan Associates. All rights reserved.</p>
+            <div class="social">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-whatsapp"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- Mobile menu toggle script -->
+    <script>
+        const toggle = document.getElementById('mobile-menu');
+        const navList = document.getElementById('nav-list');
+        toggle.addEventListener('click', () => {
+            navList.classList.toggle('active');
+        });
+    </script>
 </body>
 </html>
