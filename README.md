@@ -1,56 +1,58 @@
-# 📸 SocialSnap - Capture & Connect
+# 🏡 A1 Madaan Associates – Real Estate
 
-<div align="center">
+Welcome to the official GitHub repository of **A1 Madaan Associates**, a trusted name in real estate services based in Indirapuram, Ghaziabad. This website is designed to showcase properties, share company information, and connect with potential clients.
 
-![SocialSnap Banner](https://img.shields.io/badge/SocialSnap-Share_Your_Moment-red)
-![MERN Stack](https://img.shields.io/badge/MERN-Stack-blue)
-![Version](https://img.shields.io/badge/Version-2.0.0-green)
-![License](https://img.shields.io/badge/License-MIT-yellow)
+---
 
-**A modern platform for sharing moments and building connections**
+## 📌 About Us
 
-[Live Demo](#) • [Documentation](#) • [Try Now](#quick-start)
+A1 Madaan Associates provides comprehensive real estate solutions including:
 
-</div>
+- Residential & commercial property sales/purchase
+- Rentals and lease agreements
+- Investment consultancy
+- Property valuation and legal assistance
 
-## ✨ Why SocialSnap?
+---
 
-SocialSnap is more than just a social platform - it's where moments become memories. 
-Share photos, connect with friends, and discover amazing content in a clean, intuitive interface.
+## 📞 Contact Information
 
-## 🚀 Features
+**Mobile / WhatsApp**  
+📱 [+91 9971945681](tel:+919971945681)
 
-### 📸 Core Features
-- **Instant Sharing**: Post photos and videos in seconds
-- **Smart Feed**: AI-powered content recommendations
-- **Real Chat**: Message friends instantly
-- **Story Moments**: 24-hour disappearing updates
-- **Snap Groups**: Create communities around interests
-- **Explore Tab**: Discover new people and content
+**Email**  
+📧 [madaanpriyank000@gmail.com](mailto:madaanpriyank000@gmail.com)
 
-### 🔒 Privacy First
-- Complete control over your content
-- Custom audience selection for each post
-- End-to-end encrypted messaging
-- Invisible mode for browsing
+**Office Address**  
+🏢 I‑202, Cloud 9, Ahinsa Khand‑2,  
+Indirapuram, Ghaziabad,  
+Uttar Pradesh – 201014  
 
-## 🏗️ Tech Stack
+📍 [View on Google Maps](https://maps.google.com/?q=I+202+Cloud+9+Ahinsa+Khand-2+Indirapuram+Ghaziabad+201014)
 
-**Frontend**: React.js, Redux, Material-UI  
-**Backend**: Node.js, Express, MongoDB  
-**Real-time**: Socket.io, WebRTC  
-**Storage**: Cloudinary, AWS S3  
-**DevOps**: Docker, GitHub Actions
+---
 
-## 🎯 Quick Start
+## 🌟 Features
 
-```bash
-# Clone the repository
-git clone https://github.com/yourusername/SocialSnap.git
-cd SocialSnap
+- Fully responsive design (mobile, tablet, desktop)
+- Property listings with images and details
+- Contact form for inquiries
+- Embedded Google Map with office location
+- Fast loading and SEO‑friendly structure
 
-# Install dependencies
-npm run setup
+---
 
-# Start development servers
-npm run dev
+## 🛠️ Technologies Used
+
+- HTML5, CSS3, JavaScript  
+- Bootstrap / Tailwind CSS (optional)  
+- Google Maps JavaScript API  
+- Font Awesome icons  
+
+---
+
+## 🚀 Getting Started
+
+1. **Clone the repository**  
+   ```bash
+   git clone https://github.com/yourusername/a1-madaan-associates.git
