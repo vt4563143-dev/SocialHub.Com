@@ -1,863 +1,242 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A1 Madaan Associates – Real Estate Indirapuram</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-        }
-
-        body {
-            background: #f5f7fa;
-            color: #1e2a41;
-            line-height: 1.6;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 1300px;
-            margin: 0 auto;
-        }
-
-        /* Header / Logo */
-        header {
-            background: #0a3d62;
-            color: white;
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .logo {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .logo-main {
-            font-size: 1.9rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-
-        .logo-main span {
-            color: #f39c12;
-        }
-
-        .logo-sub {
-            font-size: 0.9rem;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: #dcdde1;
-            margin-top: -5px;
-        }
-
-        .logo-name {
-            font-size: 1rem;
-            font-weight: 500;
-            color: #f39c12;
-            margin-top: 5px;
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: 0.3s;
-        }
-
-        nav ul li a:hover {
-            color: #f39c12;
-        }
-
-        .menu-toggle {
-            display: none;
-            font-size: 1.8rem;
-            cursor: pointer;
-        }
-
-        /* Hero */
-        .hero {
-            background: linear-gradient(135deg, #0a3d62 0%, #1e5f7a 100%);
-            color: white;
-            padding: 4rem 0;
-            text-align: center;
-        }
-
-        .hero h2 {
-            font-size: 2.8rem;
-            margin-bottom: 1rem;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            max-width: 700px;
-            margin: 0 auto 2rem;
-        }
-
-        .btn {
-            display: inline-block;
-            background: #f39c12;
-            color: #0a3d62;
-            padding: 0.8rem 2.2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: 0.3s;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-
-        .btn:hover {
-            background: #e67e22;
-            color: white;
-        }
-
-        /* Services */
-        .services, .properties, .enquiry, .contact {
-            padding: 4rem 0;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .section-title h3 {
-            font-size: 2.2rem;
-            color: #0a3d62;
-            margin-bottom: 0.5rem;
-        }
-
-        .section-title p {
-            color: #5a6a7a;
-            font-size: 1.1rem;
-        }
-
-        .service-grid, .property-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-
-        .service-card {
-            background: white;
-            padding: 2rem 1.5rem;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            transition: 0.3s;
-        }
-
-        .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-
-        .service-card i {
-            font-size: 2.8rem;
-            color: #f39c12;
-            margin-bottom: 1rem;
-        }
-
-        .service-card h4 {
-            font-size: 1.5rem;
-            color: #0a3d62;
-            margin-bottom: 0.8rem;
-        }
-
-        /* Properties */
-        .properties {
-            background: #eef2f7;
-        }
-
-        .property-card {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        }
-
-        .property-img {
-            height: 220px;
-            background-color: #b0c4ce;
-            background-size: cover;
-            background-position: center;
-        }
-
-        .property-info {
-            padding: 1.5rem;
-        }
-
-        .property-info h4 {
-            color: #0a3d62;
-            margin-bottom: 0.5rem;
-        }
-
-        .property-info p {
-            color: #5a6a7a;
-            margin-bottom: 0.3rem;
-        }
-
-        .price {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: #27ae60;
-            margin: 0.8rem 0;
-        }
-
-        .blank-price {
-            color: #e67e22;
-            font-style: italic;
-        }
-
-        /* Enquiry Form - Detailed */
-        .enquiry {
-            background: white;
-        }
-
-        .enquiry-form {
-            background: #f9fbfd;
-            padding: 2.5rem;
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-        }
-
-        .form-section {
-            margin-bottom: 2rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .form-section h4 {
-            font-size: 1.5rem;
-            color: #0a3d62;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .form-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-            margin-bottom: 1.2rem;
-        }
-
-        .form-group {
-            flex: 1 1 250px;
-        }
-
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 0.3rem;
-            color: #1e2a41;
-        }
-
-        .form-group input, 
-        .form-group select, 
-        .form-group textarea {
-            width: 100%;
-            padding: 0.7rem 1rem;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 1rem;
-        }
-
-        .checkbox-group, .radio-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.2rem;
-            margin-top: 0.5rem;
-        }
-
-        .checkbox-item, .radio-item {
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-        }
-
-        .checkbox-item input, .radio-item input {
-            width: auto;
-            margin-right: 0.3rem;
-        }
-
-        .half-width {
-            flex: 1 1 200px;
-        }
-
-        .submit-btn {
-            text-align: center;
-            margin-top: 2rem;
-        }
-
-        .btn-submit {
-            background: #0a3d62;
-            color: white;
-            padding: 0.9rem 3rem;
-            font-size: 1.2rem;
-            border-radius: 50px;
-            border: none;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .btn-submit:hover {
-            background: #1e5f7a;
-        }
-
-        /* Contact Section */
-        .contact {
-            background: #0a3d62;
-            color: white;
-        }
-
-        .contact .section-title h3 {
-            color: white;
-        }
-
-        .contact .section-title p {
-            color: #dcdde1;
-        }
-
-        .contact-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
-        }
-
-        .contact-detail {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.2rem;
-        }
-
-        .contact-detail i {
-            font-size: 1.5rem;
-            color: #f39c12;
-            width: 30px;
-        }
-
-        .contact-detail span {
-            font-size: 1.1rem;
-        }
-
-        .contact-detail address {
-            font-style: normal;
-        }
-
-        .map-placeholder {
-            background: #2c3e50;
-            padding: 2rem;
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        /* Footer */
-        footer {
-            background: #082b44;
-            color: white;
-            padding: 2rem 0;
-            text-align: center;
-        }
-
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .social a {
-            color: white;
-            margin-left: 1.2rem;
-            font-size: 1.5rem;
-            transition: 0.3s;
-        }
-
-        .social a:hover {
-            color: #f39c12;
-        }
-
-        /* Responsive */
-        @media (max-width: 900px) {
-            .header-content {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            nav ul {
-                flex-direction: column;
-                gap: 0.8rem;
-                margin-top: 1rem;
-                display: none;
-                width: 100%;
-            }
-
-            nav ul.active {
-                display: flex;
-            }
-
-            .menu-toggle {
-                display: block;
-                position: absolute;
-                top: 1.3rem;
-                right: 1rem;
-            }
-
-            .hero h2 {
-                font-size: 2rem;
-            }
-
-            .contact-content {
-                grid-template-columns: 1fr;
-            }
-
-            .enquiry-form {
-                padding: 1.5rem;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>IronCore | Gym Membership & Equipment</title>
+  <!-- Google Fonts + Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <header>
-        <div class="container header-content">
-            <div class="logo">
-                <div class="logo-main">A1 <span>MADAAN</span></div>
-                <div class="logo-sub">ASSOCIATES</div>
-                <div class="logo-name">REAL ESTATE · PRIYANK MADAAN</div>
-            </div>
-            <nav>
-                <div class="menu-toggle" id="mobile-menu">
-                    <i class="fas fa-bars"></i>
-                </div>
-                <ul id="nav-list">
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#properties">Properties</a></li>
-                    <li><a href="#enquiry">Enquiry</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </nav>
+
+  <!-- ========== HEADER / NAVIGATION ========== -->
+  <header class="header">
+    <nav class="navbar container">
+      <div class="logo">
+        <i class="fas fa-dumbbell"></i>
+        <span>IRONCORE</span>
+      </div>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#membership">Membership</a></li>
+        <li><a href="#products">Products</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="cart-icon-wrapper" id="cartIconBtn">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count" id="cartCount">0</span>
+      </div>
+      <div class="menu-toggle" id="mobileMenuBtn">
+        <i class="fas fa-bars"></i>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ========== HERO SECTION ========== -->
+  <section id="home" class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content container">
+      <h1>Unlock Your <span class="highlight">Strongest Self</span></h1>
+      <p>Premium gym memberships + elite workout gear. Train harder, recover smarter, and dominate your goals.</p>
+      <div class="hero-buttons">
+        <a href="#membership" class="btn btn-primary">Join the Tribe</a>
+        <a href="#products" class="btn btn-outline">Shop Gear <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== MEMBERSHIP PLANS ========== -->
+  <section id="membership" class="section membership">
+    <div class="container">
+      <div class="section-header">
+        <h2>Membership Plans</h2>
+        <p>Flexible plans for every fitness journey — no hidden fees</p>
+      </div>
+      <div class="plans-grid">
+        <!-- Basic Plan -->
+        <div class="plan-card">
+          <div class="plan-icon"><i class="fas fa-walking"></i></div>
+          <h3>Starter</h3>
+          <div class="price">$29<span>/month</span></div>
+          <ul class="plan-features">
+            <li><i class="fas fa-check-circle"></i> Gym access (peak hours)</li>
+            <li><i class="fas fa-check-circle"></i> 1 group class / week</li>
+            <li><i class="fas fa-check-circle"></i> Locker room & showers</li>
+            <li><i class="fas fa-times-circle"></i> Personal training</li>
+            <li><i class="fas fa-times-circle"></i> Nutrition plan</li>
+          </ul>
+          <button class="btn btn-plan" data-plan="Starter - $29/mo">Join Now</button>
         </div>
-    </header>
-
-    <!-- Hero -->
-    <section id="home" class="hero">
-        <div class="container">
-            <h2>Your Trusted Real Estate Partner</h2>
-            <p>Residential & Commercial properties in Indirapuram, Ghaziabad. Buying, selling, renting – we make it simple.</p>
-            <a href="#enquiry" class="btn">Enquire Now</a>
+        <!-- Premium Plan -->
+        <div class="plan-card popular">
+          <div class="popular-badge">MOST POPULAR</div>
+          <div class="plan-icon"><i class="fas fa-fire"></i></div>
+          <h3>Elite</h3>
+          <div class="price">$59<span>/month</span></div>
+          <ul class="plan-features">
+            <li><i class="fas fa-check-circle"></i> 24/7 gym access</li>
+            <li><i class="fas fa-check-circle"></i> Unlimited group classes</li>
+            <li><i class="fas fa-check-circle"></i> Locker + towel service</li>
+            <li><i class="fas fa-check-circle"></i> 1 free PT session/month</li>
+            <li><i class="fas fa-check-circle"></i> Basic nutrition guide</li>
+          </ul>
+          <button class="btn btn-plan" data-plan="Elite - $59/mo">Join Now</button>
         </div>
-    </section>
-
-    <!-- Services -->
-    <section id="services" class="services">
-        <div class="container">
-            <div class="section-title">
-                <h3>Our Services</h3>
-                <p>Comprehensive real estate solutions tailored to you</p>
-            </div>
-            <div class="service-grid">
-                <div class="service-card">
-                    <i class="fas fa-home"></i>
-                    <h4>Buy & Sell</h4>
-                    <p>Residential & commercial properties. Expert negotiation.</p>
-                </div>
-                <div class="service-card">
-                    <i class="fas fa-key"></i>
-                    <h4>Rentals & Lease</h4>
-                    <p>Fully/semi furnished. Quick tenant-landlord matching.</p>
-                </div>
-                <div class="service-card">
-                    <i class="fas fa-file-signature"></i>
-                    <h4>Legal Assistance</h4>
-                    <p>Sale agreements, registry, documentation.</p>
-                </div>
-                <div class="service-card">
-                    <i class="fas fa-chart-line"></i>
-                    <h4>Property Valuation</h4>
-                    <p>Free market analysis & price estimates.</p>
-                </div>
-            </div>
+        <!-- Unlimited Plan -->
+        <div class="plan-card">
+          <div class="plan-icon"><i class="fas fa-crown"></i></div>
+          <h3>Unlimited</h3>
+          <div class="price">$89<span>/month</span></div>
+          <ul class="plan-features">
+            <li><i class="fas fa-check-circle"></i> All Elite benefits</li>
+            <li><i class="fas fa-check-circle"></i> Unlimited PT sessions</li>
+            <li><i class="fas fa-check-circle"></i> Custom meal plan</li>
+            <li><i class="fas fa-check-circle"></i> Recovery zone access</li>
+            <li><i class="fas fa-check-circle"></i> Guest passes (2/month)</li>
+          </ul>
+          <button class="btn btn-plan" data-plan="Unlimited - $89/mo">Join Now</button>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- Featured Properties - Price & Time Blank -->
-    <section id="properties" class="properties">
-        <div class="container">
-            <div class="section-title">
-                <h3>Featured Properties</h3>
-                <p>Handpicked properties in Indirapuram & nearby</p>
-            </div>
-            <div class="property-grid">
-                <div class="property-card">
-                    <div class="property-img" style="background-image: url('https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800');"></div>
-                    <div class="property-info">
-                        <h4>3 BHK Luxurious Apartment</h4>
-                        <p><i class="fas fa-map-marker-alt"></i> Vaishali, Ghaziabad</p>
-                        <p class="price blank-price">Price on request</p>
-                        <p><i class="far fa-clock"></i> Call for appointment</p>
-                    </div>
-                </div>
-                <div class="property-card">
-                    <div class="property-img" style="background-image: url('https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800');"></div>
-                    <div class="property-info">
-                        <h4>Commercial Shop</h4>
-                        <p><i class="fas fa-map-marker-alt"></i> Shipra Mall, Indirapuram</p>
-                        <p class="price blank-price">Price on request</p>
-                        <p><i class="far fa-clock"></i> Call for appointment</p>
-                    </div>
-                </div>
-                <div class="property-card">
-                    <div class="property-img" style="background-image: url('https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=800');"></div>
-                    <div class="property-info">
-                        <h4>2 BHK Independent Floor</h4>
-                        <p><i class="fas fa-map-marker-alt"></i> Kaushambi, Ghaziabad</p>
-                        <p class="price blank-price">Price on request</p>
-                        <p><i class="far fa-clock"></i> Call for appointment</p>
-                    </div>
-                </div>
-            </div>
+  <!-- ========== GYM PRODUCTS SECTION ========== -->
+  <section id="products" class="section products">
+    <div class="container">
+      <div class="section-header">
+        <h2>Official Gym Gear & Supplements</h2>
+        <p>Fuel your performance with premium products loved by athletes</p>
+      </div>
+      <div class="products-grid" id="productsGrid">
+        <!-- Product 1 - Whey Protein -->
+        <div class="product-card" data-id="1" data-name="Platinum Whey Protein" data-price="54.99">
+          <div class="product-img">
+            <img src="https://placehold.co/300x300/1e1e2f/white?text=WHEY+PROTEIN" alt="Whey Protein">
+          </div>
+          <div class="product-info">
+            <h3>Platinum Whey Protein</h3>
+            <p class="product-desc">25g protein per serving, fast absorption, chocolate flavor.</p>
+            <div class="product-price">$54.99</div>
+            <button class="btn-add-cart">Add to Cart <i class="fas fa-plus-circle"></i></button>
+          </div>
         </div>
-    </section>
-
-    <!-- Detailed Enquiry Form (exactly as per image) -->
-    <section id="enquiry" class="enquiry">
-        <div class="container">
-            <div class="section-title">
-                <h3>Property Enquiry</h3>
-                <p>Fill the form and we’ll get back to you instantly</p>
-            </div>
-            <div class="enquiry-form">
-                <!-- 
-                    🔴 IMPORTANT: Form Submission Setup 
-                    Formspree is used here. To receive emails:
-                    1. Go to https://formspree.io/
-                    2. Sign up / Login with madaanpriyank000@gmail.com
-                    3. Create a new form, copy its endpoint (e.g., https://formspree.io/f/xxxxxx)
-                    4. Replace the ACTION attribute below with your endpoint.
-                -->
-                <form action="https://formspree.io/f/your-form-id-here" method="POST" id="propertyEnquiryForm">
-                    
-                    <!-- Personal Details -->
-                    <div class="form-section">
-                        <h4><i class="fas fa-user"></i> Personal Details</h4>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Full Name *</label>
-                                <input type="text" name="full_name" placeholder="Your full name" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Email *</label>
-                                <input type="email" name="email" placeholder="your@email.com" required>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Contact Number *</label>
-                                <input type="tel" name="contact" placeholder="10-digit mobile" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Alternate Number</label>
-                                <input type="tel" name="alternate_contact" placeholder="Optional">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Property Requirement Details -->
-                    <div class="form-section">
-                        <h4><i class="fas fa-building"></i> Property Requirement Details</h4>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Purpose *</label>
-                                <div class="checkbox-group">
-                                    <div class="checkbox-item"><input type="checkbox" name="purpose[]" value="Buying"> Buying</div>
-                                    <div class="checkbox-item"><input type="checkbox" name="purpose[]" value="Selling"> Selling</div>
-                                    <div class="checkbox-item"><input type="checkbox" name="purpose[]" value="Renting"> Renting</div>
-                                    <div class="checkbox-item"><input type="checkbox" name="purpose[]" value="Leasing"> Leasing</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group half-width">
-                                <label>Budget Range (₹)</label>
-                                <div style="display: flex; gap: 10px;">
-                                    <input type="number" name="budget_from" placeholder="From" style="width: 48%;">
-                                    <input type="number" name="budget_to" placeholder="To" style="width: 48%;">
-                                </div>
-                            </div>
-                            <div class="form-group half-width">
-                                <label>Preferred Size (Sq. Ft.)</label>
-                                <input type="text" name="preferred_size" placeholder="e.g. 1200">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Ready to Move / Under Construction</label>
-                                <div class="checkbox-group">
-                                    <div class="checkbox-item"><input type="checkbox" name="property_status[]" value="Ready to Move"> Ready to Move</div>
-                                    <div class="checkbox-item"><input type="checkbox" name="property_status[]" value="Under Construction"> Under Construction</div>
-                                    <div class="checkbox-item"><input type="checkbox" name="property_status[]" value="Flexible"> Flexible</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Loan Required</label>
-                                <div class="radio-group">
-                                    <div class="radio-item"><input type="radio" name="loan_required" value="Yes"> Yes</div>
-                                    <div class="radio-item"><input type="radio" name="loan_required" value="No"> No</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Amenities Required</label>
-                                <div class="checkbox-group">
-                                    <div class="checkbox-item"><input type="checkbox" name="amenities[]" value="Lift"> Lift</div>
-                                    <div class="checkbox-item"><input type="checkbox" name="amenities[]" value="Power Backup"> Power Backup</div>
-                                    <div class="checkbox-item"><input type="checkbox" name="amenities[]" value="Gated Society"> Gated Society</div>
-                                    <div class="checkbox-item" style="flex:1 1 100%; margin-top:8px;">
-                                        <input type="checkbox" name="amenities[]" value="Other" id="amenity_other_check"> Other: 
-                                        <input type="text" name="amenity_other_text" placeholder="Specify" style="width: auto; display: inline; margin-left: 5px;" disabled>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Property Type</label>
-                                <div class="checkbox-group">
-                                    <div class="checkbox-item"><input type="checkbox" name="property_type[]" value="1 BHK"> 1 BHK</div>
-                                    <div class="checkbox-item"><input type="checkbox" name="property_type[]" value="2 BHK"> 2 BHK</div>
-                                    <div class="checkbox-item"><input type="checkbox" name="property_type[]" value="3 BHK"> 3 BHK</div>
-                                    <div class="checkbox-item"><input type="checkbox" name="property_type[]" value="4 BHK"> 4 BHK</div>
-                                    <div class="checkbox-item" style="flex:1 1 100%; margin-top:8px;">
-                                        <input type="checkbox" name="property_type[]" value="Other" id="property_other_check"> Other: 
-                                        <input type="text" name="property_other_text" placeholder="Specify" style="width: auto; display: inline; margin-left: 5px;" disabled>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Preferred Location(s)</label>
-                                <input type="text" name="preferred_locations" placeholder="e.g. Indirapuram, Vaishali">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Additional Requirements -->
-                    <div class="form-section">
-                        <h4><i class="fas fa-plus-circle"></i> Additional Requirements</h4>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Parking Needed</label>
-                                <div class="radio-group">
-                                    <div class="radio-item"><input type="radio" name="parking" value="Yes"> Yes</div>
-                                    <div class="radio-item"><input type="radio" name="parking" value="No"> No</div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Furnished Status</label>
-                                <div class="radio-group">
-                                    <div class="radio-item"><input type="radio" name="furnished" value="Furnished"> Furnished</div>
-                                    <div class="radio-item"><input type="radio" name="furnished" value="Semi-Furnished"> Semi-Furnished</div>
-                                    <div class="radio-item"><input type="radio" name="furnished" value="Unfurnished"> Unfurnished</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Timeline -->
-                    <div class="form-section">
-                        <h4><i class="fas fa-calendar-alt"></i> Timeline</h4>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>When are you planning to finalize?</label>
-                                <div class="checkbox-group">
-                                    <div class="checkbox-item"><input type="checkbox" name="timeline[]" value="Immediately"> Immediately</div>
-                                    <div class="checkbox-item"><input type="checkbox" name="timeline[]" value="Within 1 Month"> Within 1 Month</div>
-                                    <div class="checkbox-item"><input type="checkbox" name="timeline[]" value="Within 3 Months"> Within 3 Months</div>
-                                    <div class="checkbox-item"><input type="checkbox" name="timeline[]" value="Just Exploring"> Just Exploring</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Reference Details -->
-                    <div class="form-section">
-                        <h4><i class="fas fa-info-circle"></i> Reference Details</h4>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>How did you come to know about us?</label>
-                                <div class="checkbox-group">
-                                    <div class="checkbox-item"><input type="checkbox" name="source[]" value="Existing Client"> Existing Client</div>
-                                    <div class="checkbox-item"><input type="checkbox" name="source[]" value="Friend/Family"> Friend / Family</div>
-                                    <div class="checkbox-item"><input type="checkbox" name="source[]" value="Social Media"> Social Media</div>
-                                    <div class="checkbox-item"><input type="checkbox" name="source[]" value="Website"> Website</div>
-                                    <div class="checkbox-item"><input type="checkbox" name="source[]" value="Advertisement"> Advertisement</div>
-                                    <div class="checkbox-item"><input type="checkbox" name="source[]" value="Walk-in"> Walk-in</div>
-                                    <div class="checkbox-item" style="flex:1 1 100%; margin-top:8px;">
-                                        <input type="checkbox" name="source[]" value="Other" id="source_other_check"> Other: 
-                                        <input type="text" name="source_other_text" placeholder="Specify" style="width: auto; display: inline; margin-left: 5px;" disabled>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>References Person Name (if any)</label>
-                                <input type="text" name="reference_name" placeholder="Name">
-                            </div>
-                            <div class="form-group">
-                                <label>Reference Contact Number</label>
-                                <input type="tel" name="reference_phone" placeholder="Contact">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Remarks / Special Instructions -->
-                    <div class="form-section">
-                        <h4><i class="fas fa-pen"></i> Remarks & Special Instructions</h4>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Preferred Mode of Contact</label>
-                                <div class="checkbox-group">
-                                    <div class="checkbox-item"><input type="checkbox" name="contact_mode[]" value="Call"> Call</div>
-                                    <div class="checkbox-item"><input type="checkbox" name="contact_mode[]" value="WhatsApp"> WhatsApp</div>
-                                    <div class="checkbox-item"><input type="checkbox" name="contact_mode[]" value="Email"> Email</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Signature of Client</label>
-                                <input type="text" name="signature" placeholder="Type your full name as signature">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Additional Remarks</label>
-                                <textarea name="remarks" rows="3" placeholder="Any specific requirement..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Submit Button -->
-                    <div class="submit-btn">
-                        <button type="submit" class="btn-submit">Submit Enquiry</button>
-                    </div>
-                </form>
-            </div>
+        <!-- Product 2 - Gym Shaker -->
+        <div class="product-card" data-id="2" data-name="Pro Shaker Bottle" data-price="12.99">
+          <div class="product-img">
+            <img src="https://placehold.co/300x300/1e1e2f/white?text=SHAKER+BOTTLE" alt="Shaker Bottle">
+          </div>
+          <div class="product-info">
+            <h3>Pro Shaker Bottle</h3>
+            <p class="product-desc">Leak-proof, BPA-free, 700ml with mixing grid.</p>
+            <div class="product-price">$12.99</div>
+            <button class="btn-add-cart">Add to Cart <i class="fas fa-plus-circle"></i></button>
+          </div>
         </div>
-    </section>
-
-    <!-- Contact Section (with exact details from image) -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <div class="section-title">
-                <h3>Contact Us</h3>
-                <p>Reach out to Priyank Madaan directly</p>
-            </div>
-            <div class="contact-content">
-                <div class="contact-info">
-                    <div class="contact-detail">
-                        <i class="fas fa-user"></i>
-                        <span><strong>Priyank Madaan</strong></span>
-                    </div>
-                    <div class="contact-detail">
-                        <i class="fas fa-phone-alt"></i>
-                        <span>+91 9971945681</span>
-                    </div>
-                    <div class="contact-detail">
-                        <i class="fas fa-envelope"></i>
-                        <span>madaanpriyank000@gmail.com</span>
-                    </div>
-                    <div class="contact-detail">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <address>
-                            Shop No. 5, Tower A, Cloud 9,<br>
-                            Ahinsa Khand-2, Indirapuram,<br>
-                            Ghaziabad, U.P. - 201014
-                        </address>
-                    </div>
-                </div>
-                <div class="map-placeholder">
-                    <i class="fas fa-map-marked-alt" style="font-size: 3rem; color: #f39c12;"></i>
-                    <p style="margin-top: 1rem; color: white;">Google Map Location<br>(Integrated on live site)</p>
-                </div>
-            </div>
+        <!-- Product 3 - Workout Gloves -->
+        <div class="product-card" data-id="3" data-name="Carbon Grip Gloves" data-price="29.99">
+          <div class="product-img">
+            <img src="https://placehold.co/300x300/1e1e2f/white?text=GYM+GLOVES" alt="Gym Gloves">
+          </div>
+          <div class="product-info">
+            <h3>Carbon Grip Gloves</h3>
+            <p class="product-desc">Anti-slip palm, breathable fabric, wrist support.</p>
+            <div class="product-price">$29.99</div>
+            <button class="btn-add-cart">Add to Cart <i class="fas fa-plus-circle"></i></button>
+          </div>
         </div>
-    </section>
-
-    <footer>
-        <div class="container footer-content">
-            <p>&copy; 2025 A1 Madaan Associates. All rights reserved.</p>
-            <div class="social">
-                <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-            </div>
+        <!-- Product 4 - Resistance Bands Set -->
+        <div class="product-card" data-id="4" data-name="Elite Resistance Bands" data-price="39.99">
+          <div class="product-img">
+            <img src="https://placehold.co/300x300/1e1e2f/white?text=RESISTANCE+BANDS" alt="Resistance Bands">
+          </div>
+          <div class="product-info">
+            <h3>Elite Resistance Bands</h3>
+            <p class="product-desc">5 levels, natural latex, door anchor included.</p>
+            <div class="product-price">$39.99</div>
+            <button class="btn-add-cart">Add to Cart <i class="fas fa-plus-circle"></i></button>
+          </div>
         </div>
-    </footer>
+      </div>
+    </div>
+  </section>
 
-    <!-- Mobile menu script -->
-    <script>
-        // Mobile menu toggle
-        const menuToggle = document.getElementById('mobile-menu');
-        const navList = document.getElementById('nav-list');
+  <!-- ========== CONTACT SECTION ========== -->
+  <section id="contact" class="section contact">
+    <div class="container">
+      <div class="contact-wrapper">
+        <div class="contact-info">
+          <h2>Get in Touch</h2>
+          <p>Questions about memberships or orders? Our team is ready to help you crush your goals.</p>
+          <div class="contact-details">
+            <div><i class="fas fa-map-marker-alt"></i> 88 Fitness Ave, Los Angeles, CA</div>
+            <div><i class="fas fa-phone-alt"></i> +1 (800) 555-9876</div>
+            <div><i class="fas fa-envelope"></i> hello@ironcoregym.com</div>
+          </div>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <form id="contactForm" class="contact-form">
+          <input type="text" id="name" placeholder="Your Name" required>
+          <input type="email" id="email" placeholder="Email Address" required>
+          <textarea rows="4" placeholder="Your message..."></textarea>
+          <button type="submit" class="btn btn-primary">Send Message <i class="fas fa-paper-plane"></i></button>
+        </form>
+      </div>
+    </div>
+  </section>
 
-        if (menuToggle) {
-            menuToggle.addEventListener('click', function() {
-                navList.classList.toggle('active');
-            });
-        }
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-logo">
+        <i class="fas fa-dumbbell"></i> IronCore
+        <p>Empower your journey — every rep, every step.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Explore</h4>
+        <a href="#home">Home</a>
+        <a href="#membership">Membership</a>
+        <a href="#products">Products</a>
+      </div>
+      <div class="footer-links">
+        <h4>Support</h4>
+        <a href="#">FAQ</a>
+        <a href="#">Shipping</a>
+        <a href="#">Returns</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 IronCore Fitness. Sweat, strength, success.</p>
+    </div>
+  </footer>
 
-        // Enable/disable "Other" text fields based on checkbox
-        function setupOtherToggle(checkboxId, textFieldSelector) {
-            const checkbox = document.getElementById(checkboxId);
-            if (checkbox) {
-                checkbox.addEventListener('change', function() {
-                    const textField = document.querySelector(textFieldSelector);
-                    if (textField) {
-                        textField.disabled = !this.checked;
-                        if (!this.checked) textField.value = '';
-                    }
-                });
-            }
-        }
+  <!-- ========== CART MODAL (hidden by default) ========== -->
+  <div id="cartModal" class="cart-modal">
+    <div class="cart-modal-content">
+      <div class="cart-modal-header">
+        <h3><i class="fas fa-shopping-bag"></i> Your Cart</h3>
+        <span class="close-cart">&times;</span>
+      </div>
+      <div id="cartItemsList" class="cart-items-list">
+        <div class="empty-cart-msg">Your cart is empty. Add some gear!</div>
+      </div>
+      <div class="cart-total">
+        <strong>Total: </strong><span id="cartTotalPrice">$0.00</span>
+      </div>
+      <div class="cart-actions">
+        <button id="clearCartBtn" class="btn-clear">Clear Cart</button>
+        <button id="checkoutBtn" class="btn-checkout">Proceed to Checkout</button>
+      </div>
+    </div>
+  </div>
 
-        setupOtherToggle('amenity_other_check', 'input[name="amenity_other_text"]');
-        setupOtherToggle('property_other_check', 'input[name="property_other_text"]');
-        setupOtherToggle('source_other_check', 'input[name="source_other_text"]');
-    </script>
+  <script src="js/script.js"></script>
 </body>
 </html>
