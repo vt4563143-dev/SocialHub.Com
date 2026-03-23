@@ -1,26 +1,46 @@
-# IronCore Fitness – Gym Membership & Equipment Store
+<!DOCTYPE html>
+<html>
+<body>
+<div align="center">
+  <img src="https://img.shields.io/badge/🔥%20GYM%20FREAK-STRONG%20COMMUNITY-red?style=for-the-badge&logo=github" alt="Gym Freak Badge">
+  <h1 style="font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #ff4d2e, #ff9068); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">GYM FREAK</h1>
+  <p style="font-size: 1.2em; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Your ultimate fitness destination – memberships, gear, and community.</p>
+</div>
 
-A fully responsive front-end website for a modern gym. Users can explore membership plans, browse fitness products, add items to a cart, and send contact messages.
+## 🏋️‍♂️ About the Project
+A modern, responsive front-end website for **Gym Freak**, featuring:
+- Membership plans with instant sign‑up simulation
+- Product catalog with shopping cart functionality
+- 3D animated dumbbell hero section (Three.js)
+- Contact form with local storage cart
 
-## Features
-- Responsive layout (mobile, tablet, desktop)
-- Membership plans with interactive “Join Now” buttons
-- Product catalog with “Add to Cart” functionality
-- Live shopping cart modal (add/remove/clear)
-- Contact form with basic validation
-- Clean, modern UI with Font Awesome icons
+## 📍 Contact & Location
+| Contact | Details |
+|---------|---------|
+| **Gym Name** | Gym Freak |
+| **Phone** | <span style="color: #ff4d2e; font-weight: bold;">📞 +91 8447437179</span> |
+| **Email** | <span style="color: #ff4d2e;">✉️ vt4563143@gmail.com</span> |
+| **Address** | <span style="color: #ff4d2e;">📍 Khora Colony, Ghaziabad, Uttar Pradesh, India</span> |
 
-## Technologies
-- HTML5
-- CSS3 (flexbox, grid, custom properties)
-- Vanilla JavaScript (no external libraries)
+## 🚀 Features
+- ✨ **3D Rotating Dumbbell** – built with Three.js for an immersive hero section
+- 🛒 **Interactive Shopping Cart** – add/remove products, local storage persistence
+- 💪 **Membership Plans** – Starter, Elite, Unlimited with mock join buttons
+- 📱 **Fully Responsive** – works seamlessly on mobile, tablet, desktop
+- 🎨 **Vibrant Design** – gradient text, glowing effects, glassmorphism cards
 
-## How to Use
-1. Clone the repository or download the files.
-2. Open `index.html` in any modern browser.
-3. Navigate through the sections: Home, Membership, Products, Contact.
-4. Click “Add to Cart” on any product to update the cart counter.
-5. Click the cart icon to view and manage your items.
-6. Use the contact form to simulate a message (console log will show submission).
+## 🛠️ Technologies Used
+- **HTML5** – semantic structure
+- **CSS3** – flexbox, grid, custom properties, animations
+- **JavaScript** – ES6, localStorage, dynamic cart
+- **Three.js** – 3D graphics
+- **Font Awesome** – icons
+- **Google Fonts** – Inter typeface
 
-## Folder Structure
+## 📸 Preview
+![Website Preview](https://via.placeholder.com/800x400?text=Gym+Freak+Website+Preview)
+
+## 🏃‍♂️ How to Run
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/gym-freak.git
