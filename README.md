@@ -1,58 +1,26 @@
-# 🏡 A1 Madaan Associates – Real Estate
+# IronCore Fitness – Gym Membership & Equipment Store
 
-Welcome to the official GitHub repository of **A1 Madaan Associates**, a trusted name in real estate services based in Indirapuram, Ghaziabad. This website is designed to showcase properties, share company information, and connect with potential clients.
+A fully responsive front-end website for a modern gym. Users can explore membership plans, browse fitness products, add items to a cart, and send contact messages.
 
----
+## Features
+- Responsive layout (mobile, tablet, desktop)
+- Membership plans with interactive “Join Now” buttons
+- Product catalog with “Add to Cart” functionality
+- Live shopping cart modal (add/remove/clear)
+- Contact form with basic validation
+- Clean, modern UI with Font Awesome icons
 
-## 📌 About Us
+## Technologies
+- HTML5
+- CSS3 (flexbox, grid, custom properties)
+- Vanilla JavaScript (no external libraries)
 
-A1 Madaan Associates provides comprehensive real estate solutions including:
+## How to Use
+1. Clone the repository or download the files.
+2. Open `index.html` in any modern browser.
+3. Navigate through the sections: Home, Membership, Products, Contact.
+4. Click “Add to Cart” on any product to update the cart counter.
+5. Click the cart icon to view and manage your items.
+6. Use the contact form to simulate a message (console log will show submission).
 
-- Residential & commercial property sales/purchase
-- Rentals and lease agreements
-- Investment consultancy
-- Property valuation and legal assistance
-
----
-
-## 📞 Contact Information
-
-**Mobile / WhatsApp**  
-📱 [+91 9971945681](tel:+919971945681)
-
-**Email**  
-📧 [madaanpriyank000@gmail.com](mailto:madaanpriyank000@gmail.com)
-
-**Office Address**  
-🏢 I‑202, Cloud 9, Ahinsa Khand‑2,  
-Indirapuram, Ghaziabad,  
-Uttar Pradesh – 201014  
-
-📍 [View on Google Maps](https://maps.google.com/?q=I+202+Cloud+9+Ahinsa+Khand-2+Indirapuram+Ghaziabad+201014)
-
----
-
-## 🌟 Features
-
-- Fully responsive design (mobile, tablet, desktop)
-- Property listings with images and details
-- Contact form for inquiries
-- Embedded Google Map with office location
-- Fast loading and SEO‑friendly structure
-
----
-
-## 🛠️ Technologies Used
-
-- HTML5, CSS3, JavaScript  
-- Bootstrap / Tailwind CSS (optional)  
-- Google Maps JavaScript API  
-- Font Awesome icons  
-
----
-
-## 🚀 Getting Started
-
-1. **Clone the repository**  
-   ```bash
-   git clone https://github.com/yourusername/a1-madaan-associates.git
+## Folder Structure
