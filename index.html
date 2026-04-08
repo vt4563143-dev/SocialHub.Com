@@ -1,1030 +1,598 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>IronCore | 3D Gym Experience</title>
-  <!-- Google Fonts + Font Awesome -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <style>
-    /* ---------- CSS RESET & VARIABLES ---------- */
-    :root {
-      --primary: #ff4d2e;
-      --primary-dark: #e63e1f;
-      --primary-glow: rgba(255, 77, 46, 0.4);
-      --dark-bg: #0a0a12;
-      --card-bg: rgba(26, 26, 46, 0.85);
-      --text-light: #f0f0f0;
-      --text-muted: #aaa;
-      --border: rgba(255, 77, 46, 0.2);
-      --transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-    }
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--dark-bg);
-      color: var(--text-light);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-    /* animated gradient background */
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at 20% 30%, rgba(255,77,46,0.15), rgba(10,10,18,1));
-      z-index: -2;
-    }
-    .container {
-      width: 90%;
-      max-width: 1280px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 2;
-    }
-    /* Header */
-    .header {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      background: rgba(10, 10, 18, 0.85);
-      backdrop-filter: blur(12px);
-      z-index: 1000;
-      border-bottom: 1px solid var(--border);
-    }
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 0;
-    }
-    .logo {
-      font-size: 1.5rem;
-      font-weight: 800;
-      letter-spacing: 1px;
-      background: linear-gradient(135deg, #fff, var(--primary));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-    .logo i {
-      color: var(--primary);
-      margin-right: 0.5rem;
-    }
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      list-style: none;
-    }
-    .nav-links a {
-      color: var(--text-light);
-      text-decoration: none;
-      font-weight: 500;
-      transition: var(--transition);
-    }
-    .nav-links a:hover {
-      color: var(--primary);
-      text-shadow: 0 0 8px var(--primary-glow);
-    }
-    .cart-icon-wrapper {
-      position: relative;
-      cursor: pointer;
-      font-size: 1.4rem;
-      color: var(--text-light);
-      transition: var(--transition);
-    }
-    .cart-icon-wrapper:hover {
-      color: var(--primary);
-      transform: scale(1.05);
-    }
-    .cart-count {
-      position: absolute;
-      top: -8px;
-      right: -12px;
-      background: var(--primary);
-      font-size: 0.7rem;
-      font-weight: bold;
-      border-radius: 50%;
-      padding: 2px 6px;
-    }
-    .menu-toggle {
-      display: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-    /* Hero Section with 3D canvas */
-    .hero {
-      height: 100vh;
-      min-height: 700px;
-      position: relative;
-      display: flex;
-      align-items: center;
-      text-align: center;
-      overflow: hidden;
-    }
-    #canvas3d {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-      pointer-events: none;
-    }
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      background: rgba(10, 10, 18, 0.5);
-      backdrop-filter: blur(4px);
-      padding: 2rem;
-      border-radius: 2rem;
-      margin: 0 auto;
-      width: 90%;
-      max-width: 800px;
-    }
-    .hero h1 {
-      font-size: 3.5rem;
-      margin-bottom: 1rem;
-      background: linear-gradient(135deg, #fff, var(--primary));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-    .highlight {
-      color: var(--primary);
-      background: none;
-      -webkit-background-clip: unset;
-      background-clip: unset;
-    }
-    .hero p {
-      font-size: 1.2rem;
-      max-width: 700px;
-      margin: 0 auto 2rem;
-      color: #ddd;
-    }
-    .btn {
-      display: inline-block;
-      padding: 0.8rem 1.8rem;
-      border-radius: 40px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: var(--transition);
-      border: none;
-      cursor: pointer;
-      font-size: 1rem;
-    }
-    .btn-primary {
-      background: var(--primary);
-      color: white;
-      box-shadow: 0 4px 15px var(--primary-glow);
-    }
-    .btn-primary:hover {
-      background: var(--primary-dark);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px var(--primary-glow);
-    }
-    .btn-outline {
-      background: transparent;
-      border: 2px solid var(--primary);
-      color: var(--primary);
-    }
-    .btn-outline:hover {
-      background: var(--primary);
-      color: white;
-      transform: translateY(-2px);
-    }
-    .hero-buttons {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-    }
-    /* Sections */
-    .section {
-      padding: 5rem 0;
-      position: relative;
-      z-index: 2;
-    }
-    .section-header {
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-    .section-header h2 {
-      font-size: 2.2rem;
-      margin-bottom: 0.5rem;
-      background: linear-gradient(135deg, #fff, var(--primary));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      display: inline-block;
-    }
-    .section-header p {
-      color: var(--text-muted);
-    }
-    /* Plans Grid */
-    .plans-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-    }
-    .plan-card {
-      background: var(--card-bg);
-      backdrop-filter: blur(8px);
-      border-radius: 1.5rem;
-      padding: 2rem;
-      text-align: center;
-      transition: var(--transition);
-      border: 1px solid var(--border);
-      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-    }
-    .plan-card:hover {
-      transform: translateY(-10px);
-      border-color: var(--primary);
-      box-shadow: 0 15px 30px rgba(255,77,46,0.2);
-    }
-    .plan-card.popular {
-      transform: scale(1.02);
-      border: 2px solid var(--primary);
-      box-shadow: 0 10px 25px -5px rgba(255, 77, 46, 0.3);
-    }
-    .popular-badge {
-      position: absolute;
-      top: -12px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--primary);
-      padding: 0.2rem 1rem;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: bold;
-    }
-    .plan-icon {
-      font-size: 2.5rem;
-      color: var(--primary);
-      margin-bottom: 1rem;
-    }
-    .plan-card h3 {
-      font-size: 1.6rem;
-      margin-bottom: 0.5rem;
-    }
-    .price {
-      font-size: 2rem;
-      font-weight: 800;
-      margin: 1rem 0;
-      color: var(--primary);
-    }
-    .price span {
-      font-size: 1rem;
-      font-weight: normal;
-      color: var(--text-muted);
-    }
-    .plan-features {
-      list-style: none;
-      margin: 1.5rem 0;
-      text-align: left;
-    }
-    .plan-features li {
-      margin: 0.8rem 0;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .plan-features i.fa-check-circle {
-      color: #2ecc71;
-    }
-    .plan-features i.fa-times-circle {
-      color: #e74c3c;
-    }
-    .btn-plan {
-      background: transparent;
-      border: 2px solid var(--primary);
-      color: var(--primary);
-      width: 100%;
-      border-radius: 40px;
-      padding: 0.7rem;
-      font-weight: bold;
-    }
-    .btn-plan:hover {
-      background: var(--primary);
-      color: white;
-    }
-    /* Products Grid with real images */
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-    }
-    .product-card {
-      background: var(--card-bg);
-      backdrop-filter: blur(8px);
-      border-radius: 1rem;
-      overflow: hidden;
-      transition: var(--transition);
-      border: 1px solid var(--border);
-    }
-    .product-card:hover {
-      transform: translateY(-5px);
-      border-color: var(--primary);
-      box-shadow: 0 10px 25px rgba(255,77,46,0.2);
-    }
-    .product-img img {
-      width: 100%;
-      height: 220px;
-      object-fit: cover;
-      transition: transform 0.5s;
-    }
-    .product-card:hover .product-img img {
-      transform: scale(1.05);
-    }
-    .product-info {
-      padding: 1.2rem;
-    }
-    .product-info h3 {
-      margin-bottom: 0.5rem;
-    }
-    .product-desc {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin: 0.5rem 0;
-    }
-    .product-price {
-      font-weight: 800;
-      font-size: 1.3rem;
-      margin: 0.8rem 0;
-      color: var(--primary);
-    }
-    .btn-add-cart {
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      border: none;
-      color: white;
-      padding: 0.5rem 1rem;
-      border-radius: 30px;
-      cursor: pointer;
-      width: 100%;
-      font-weight: bold;
-      transition: var(--transition);
-    }
-    .btn-add-cart:hover {
-      transform: scale(1.02);
-      box-shadow: 0 5px 15px var(--primary-glow);
-    }
-    /* Contact */
-    .contact-wrapper {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      background: var(--card-bg);
-      backdrop-filter: blur(8px);
-      border-radius: 2rem;
-      padding: 2rem;
-      border: 1px solid var(--border);
-    }
-    .contact-details div {
-      margin: 1rem 0;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    .social-icons {
-      margin-top: 2rem;
-      display: flex;
-      gap: 1rem;
-    }
-    .social-icons a {
-      color: var(--text-light);
-      font-size: 1.5rem;
-      transition: var(--transition);
-    }
-    .social-icons a:hover {
-      color: var(--primary);
-      transform: translateY(-3px);
-    }
-    .contact-form {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-    .contact-form input, .contact-form textarea {
-      background: rgba(26,26,46,0.8);
-      border: 1px solid var(--border);
-      padding: 0.8rem;
-      border-radius: 0.5rem;
-      color: white;
-      font-family: inherit;
-    }
-    .contact-form input:focus, .contact-form textarea:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 8px var(--primary-glow);
-    }
-    /* Footer */
-    .footer {
-      background: #080811;
-      padding: 3rem 0 1rem;
-      margin-top: 2rem;
-      border-top: 1px solid var(--border);
-    }
-    .footer-content {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 2rem;
-      margin-bottom: 2rem;
-    }
-    .footer-logo i {
-      font-size: 2rem;
-      color: var(--primary);
-    }
-    .footer-links {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-    .footer-links a {
-      color: var(--text-muted);
-      text-decoration: none;
-    }
-    .footer-links a:hover {
-      color: var(--primary);
-    }
-    .footer-bottom {
-      text-align: center;
-      padding-top: 2rem;
-      border-top: 1px solid var(--border);
-      font-size: 0.8rem;
-    }
-    /* Cart Modal */
-    .cart-modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.8);
-      backdrop-filter: blur(5px);
-      z-index: 2000;
-      justify-content: center;
-      align-items: center;
-    }
-    .cart-modal-content {
-      background: var(--card-bg);
-      border-radius: 1.5rem;
-      padding: 1.5rem;
-      width: 90%;
-      max-width: 500px;
-      border: 1px solid var(--primary);
-      animation: fadeInUp 0.3s;
-    }
-    .cart-modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 1rem;
-      margin-bottom: 1rem;
-    }
-    .close-cart {
-      font-size: 1.8rem;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-    .close-cart:hover {
-      color: var(--primary);
-    }
-    .cart-items-list {
-      max-height: 300px;
-      overflow-y: auto;
-      margin-bottom: 1rem;
-    }
-    .cart-item {
-      display: flex;
-      justify-content: space-between;
-      padding: 0.5rem 0;
-      border-bottom: 1px solid var(--border);
-    }
-    .cart-total {
-      text-align: right;
-      font-size: 1.2rem;
-      margin: 1rem 0;
-    }
-    .cart-actions {
-      display: flex;
-      justify-content: space-between;
-      gap: 1rem;
-    }
-    .btn-clear, .btn-checkout {
-      padding: 0.5rem 1rem;
-      border-radius: 30px;
-      border: none;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    .btn-clear {
-      background: #444;
-      color: white;
-    }
-    .btn-checkout {
-      background: var(--primary);
-      color: white;
-    }
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    @media (max-width: 768px) {
-      .nav-links {
-        display: none;
-      }
-      .menu-toggle {
-        display: block;
-      }
-      .hero h1 {
-        font-size: 2rem;
-      }
-      .contact-wrapper {
-        grid-template-columns: 1fr;
-      }
-      .hero-content {
-        background: rgba(10, 10, 18, 0.7);
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Momos Hub • 3D Cart</title>
+    <!-- Fonts & Base Styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            color: #3E2723;
+        }
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        /* UI Overlay - Glassmorphism with Momos Hub colors */
+        .content {
+            position: relative;
+            z-index: 10;
+            pointer-events: none; /* Allows clicking through to canvas, but we enable on buttons */
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 2rem 4rem;
+            box-sizing: border-box;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            pointer-events: auto;
+        }
+        .logo {
+            font-family: 'Clash Display', sans-serif;
+            font-weight: 700;
+            font-size: 2.5rem;
+            color: #FDFBF7;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            letter-spacing: -0.02em;
+        }
+        .logo span {
+            color: #FF7A2F;
+        }
+        .nav {
+            display: flex;
+            gap: 2rem;
+            backdrop-filter: blur(12px);
+            background: rgba(253, 251, 247, 0.2);
+            padding: 0.8rem 2rem;
+            border-radius: 60px;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        .nav a {
+            color: #FDFBF7;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: color 0.2s;
+        }
+        .nav a:hover {
+            color: #FF7A2F;
+        }
+        .hero {
+            pointer-events: auto;
+            max-width: 600px;
+            margin-top: 10vh;
+        }
+        .hero h1 {
+            font-family: 'Clash Display', sans-serif;
+            font-size: 5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin: 0;
+            color: #FDFBF7;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .hero h1 .orange {
+            color: #FF7A2F;
+        }
+        .hero h1 .teal {
+            color: #00B4B3;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            color: #FDFBF7;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            margin: 1.5rem 0;
+            backdrop-filter: blur(8px);
+            background: rgba(62, 39, 35, 0.2);
+            display: inline-block;
+            padding: 0.8rem 1.8rem;
+            border-radius: 40px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .btn {
+            pointer-events: auto;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-family: 'Inter', sans-serif;
+            backdrop-filter: blur(8px);
+        }
+        .btn-primary {
+            background: #FF7A2F;
+            color: #FDFBF7;
+            box-shadow: 0 8px 20px rgba(255, 122, 47, 0.3);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .btn-secondary {
+            background: rgba(253, 251, 247, 0.15);
+            color: #FDFBF7;
+            border: 1px solid #00B4B3;
+            box-shadow: 0 8px 20px rgba(0, 180, 179, 0.2);
+        }
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        .footer {
+            pointer-events: auto;
+            display: flex;
+            justify-content: space-between;
+            color: #FDFBF7;
+            backdrop-filter: blur(8px);
+            background: rgba(62, 39, 35, 0.15);
+            padding: 0.8rem 2rem;
+            border-radius: 40px;
+            border: 1px solid rgba(255,255,255,0.1);
+            width: fit-content;
+        }
+        .cart-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #00B4B3;
+            padding: 0.5rem 1.5rem;
+            border-radius: 40px;
+            color: #FDFBF7;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        @media (max-width: 768px) {
+            .content { padding: 1.5rem; }
+            .hero h1 { font-size: 3.5rem; }
+            .nav { display: none; }
+        }
+    </style>
+    <!-- Import Maps for Three.js and GSAP -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/",
+                "gsap": "https://unpkg.com/gsap@3.12.5/index.js",
+                "gsap/ScrollTrigger": "https://unpkg.com/gsap@3.12.5/ScrollTrigger.js"
+            }
+        }
+    </script>
 </head>
 <body>
-
-  <header class="header">
-    <nav class="navbar container">
-      <div class="logo">
-        <i class="fas fa-dumbbell"></i>
-        <span>IRONCORE</span>
-      </div>
-      <ul class="nav-links" id="navLinks">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#membership">Membership</a></li>
-        <li><a href="#products">Products</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-      <div class="cart-icon-wrapper" id="cartIconBtn">
-        <i class="fas fa-shopping-cart"></i>
-        <span class="cart-count" id="cartCount">0</span>
-      </div>
-      <div class="menu-toggle" id="mobileMenuBtn">
-        <i class="fas fa-bars"></i>
-      </div>
-    </nav>
-  </header>
-
-  <section id="home" class="hero">
-    <canvas id="canvas3d"></canvas>
-    <div class="hero-content container">
-      <h1>Unlock Your <span class="highlight">Strongest Self</span></h1>
-      <p>Premium gym memberships + elite workout gear. Train harder, recover smarter, and dominate your goals.</p>
-      <div class="hero-buttons">
-        <a href="#membership" class="btn btn-primary">Join the Tribe</a>
-        <a href="#products" class="btn btn-outline">Shop Gear <i class="fas fa-arrow-right"></i></a>
-      </div>
-    </div>
-  </section>
-
-  <section id="membership" class="section membership">
-    <div class="container">
-      <div class="section-header">
-        <h2>Membership Plans</h2>
-        <p>Flexible plans for every fitness journey — no hidden fees</p>
-      </div>
-      <div class="plans-grid">
-        <div class="plan-card">
-          <div class="plan-icon"><i class="fas fa-walking"></i></div>
-          <h3>Starter</h3>
-          <div class="price">$29<span>/month</span></div>
-          <ul class="plan-features">
-            <li><i class="fas fa-check-circle"></i> Gym access (peak hours)</li>
-            <li><i class="fas fa-check-circle"></i> 1 group class / week</li>
-            <li><i class="fas fa-check-circle"></i> Locker room & showers</li>
-            <li><i class="fas fa-times-circle"></i> Personal training</li>
-            <li><i class="fas fa-times-circle"></i> Nutrition plan</li>
-          </ul>
-          <button class="btn btn-plan" data-plan="Starter - $29/mo">Join Now</button>
-        </div>
-        <div class="plan-card popular">
-          <div class="popular-badge">MOST POPULAR</div>
-          <div class="plan-icon"><i class="fas fa-fire"></i></div>
-          <h3>Elite</h3>
-          <div class="price">$59<span>/month</span></div>
-          <ul class="plan-features">
-            <li><i class="fas fa-check-circle"></i> 24/7 gym access</li>
-            <li><i class="fas fa-check-circle"></i> Unlimited group classes</li>
-            <li><i class="fas fa-check-circle"></i> Locker + towel service</li>
-            <li><i class="fas fa-check-circle"></i> 1 free PT session/month</li>
-            <li><i class="fas fa-check-circle"></i> Basic nutrition guide</li>
-          </ul>
-          <button class="btn btn-plan" data-plan="Elite - $59/mo">Join Now</button>
-        </div>
-        <div class="plan-card">
-          <div class="plan-icon"><i class="fas fa-crown"></i></div>
-          <h3>Unlimited</h3>
-          <div class="price">$89<span>/month</span></div>
-          <ul class="plan-features">
-            <li><i class="fas fa-check-circle"></i> All Elite benefits</li>
-            <li><i class="fas fa-check-circle"></i> Unlimited PT sessions</li>
-            <li><i class="fas fa-check-circle"></i> Custom meal plan</li>
-            <li><i class="fas fa-check-circle"></i> Recovery zone access</li>
-            <li><i class="fas fa-check-circle"></i> Guest passes (2/month)</li>
-          </ul>
-          <button class="btn btn-plan" data-plan="Unlimited - $89/mo">Join Now</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="products" class="section products">
-    <div class="container">
-      <div class="section-header">
-        <h2>Official Gym Gear & Supplements</h2>
-        <p>Fuel your performance with premium products loved by athletes</p>
-      </div>
-      <div class="products-grid" id="productsGrid">
-        <div class="product-card" data-id="1" data-name="Platinum Whey Protein" data-price="54.99">
-          <div class="product-img">
-            <img src="https://images.unsplash.com/photo-1579722821273-0f6c7d44362f?w=500&auto=format" alt="Whey Protein">
-          </div>
-          <div class="product-info">
-            <h3>Platinum Whey Protein</h3>
-            <p class="product-desc">25g protein per serving, fast absorption, chocolate flavor.</p>
-            <div class="product-price">$54.99</div>
-            <button class="btn-add-cart">Add to Cart <i class="fas fa-plus-circle"></i></button>
-          </div>
-        </div>
-        <div class="product-card" data-id="2" data-name="Pro Shaker Bottle" data-price="12.99">
-          <div class="product-img">
-            <img src="https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=500&auto=format" alt="Shaker Bottle">
-          </div>
-          <div class="product-info">
-            <h3>Pro Shaker Bottle</h3>
-            <p class="product-desc">Leak-proof, BPA-free, 700ml with mixing grid.</p>
-            <div class="product-price">$12.99</div>
-            <button class="btn-add-cart">Add to Cart <i class="fas fa-plus-circle"></i></button>
-          </div>
-        </div>
-        <div class="product-card" data-id="3" data-name="Carbon Grip Gloves" data-price="29.99">
-          <div class="product-img">
-            <img src="https://images.unsplash.com/photo-1599058917212-d750089bc07e?w=500&auto=format" alt="Gym Gloves">
-          </div>
-          <div class="product-info">
-            <h3>Carbon Grip Gloves</h3>
-            <p class="product-desc">Anti-slip palm, breathable fabric, wrist support.</p>
-            <div class="product-price">$29.99</div>
-            <button class="btn-add-cart">Add to Cart <i class="fas fa-plus-circle"></i></button>
-          </div>
-        </div>
-        <div class="product-card" data-id="4" data-name="Elite Resistance Bands" data-price="39.99">
-          <div class="product-img">
-            <img src="https://images.unsplash.com/photo-1598971639058-fab3c3109a00?w=500&auto=format" alt="Resistance Bands">
-          </div>
-          <div class="product-info">
-            <h3>Elite Resistance Bands</h3>
-            <p class="product-desc">5 levels, natural latex, door anchor included.</p>
-            <div class="product-price">$39.99</div>
-            <button class="btn-add-cart">Add to Cart <i class="fas fa-plus-circle"></i></button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="contact" class="section contact">
-    <div class="container">
-      <div class="contact-wrapper">
-        <div class="contact-info">
-          <h2>Get in Touch</h2>
-          <p>Questions about memberships or orders? Our team is ready to help you crush your goals.</p>
-          <div class="contact-details">
-            <div><i class="fas fa-map-marker-alt"></i> 88 Fitness Ave, Los Angeles, CA</div>
-            <div><i class="fas fa-phone-alt"></i> +1 (800) 555-9876</div>
-            <div><i class="fas fa-envelope"></i> hello@ironcoregym.com</div>
-          </div>
-          <div class="social-icons">
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-youtube"></i></a>
-          </div>
-        </div>
-        <form id="contactForm" class="contact-form">
-          <input type="text" id="name" placeholder="Your Name" required>
-          <input type="email" id="email" placeholder="Email Address" required>
-          <textarea rows="4" placeholder="Your message..."></textarea>
-          <button type="submit" class="btn btn-primary">Send Message <i class="fas fa-paper-plane"></i></button>
-        </form>
-      </div>
-    </div>
-  </section>
-
-  <footer class="footer">
-    <div class="container footer-content">
-      <div class="footer-logo">
-        <i class="fas fa-dumbbell"></i> IronCore
-        <p>Empower your journey — every rep, every step.</p>
-      </div>
-      <div class="footer-links">
-        <h4>Explore</h4>
-        <a href="#home">Home</a>
-        <a href="#membership">Membership</a>
-        <a href="#products">Products</a>
-      </div>
-      <div class="footer-links">
-        <h4>Support</h4>
-        <a href="#">FAQ</a>
-        <a href="#">Shipping</a>
-        <a href="#">Returns</a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>© 2025 IronCore Fitness. Sweat, strength, success.</p>
-    </div>
-  </footer>
-
-  <div id="cartModal" class="cart-modal">
-    <div class="cart-modal-content">
-      <div class="cart-modal-header">
-        <h3><i class="fas fa-shopping-bag"></i> Your Cart</h3>
-        <span class="close-cart">&times;</span>
-      </div>
-      <div id="cartItemsList" class="cart-items-list">
-        <div class="empty-cart-msg">Your cart is empty. Add some gear!</div>
-      </div>
-      <div class="cart-total">
-        <strong>Total: </strong><span id="cartTotalPrice">$0.00</span>
-      </div>
-      <div class="cart-actions">
-        <button id="clearCartBtn" class="btn-clear">Clear Cart</button>
-        <button id="checkoutBtn" class="btn-checkout">Proceed to Checkout</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Three.js library -->
-  <script type="importmap">
-    {
-      "imports": {
-        "three": "https://unpkg.com/three@0.128.0/build/three.module.js"
-      }
-    }
-  </script>
-
-  <script type="module">
-    import * as THREE from 'three';
-
-    // Setup scene, camera, renderer
-    const canvas = document.getElementById('canvas3d');
-    const scene = new THREE.Scene();
-    scene.background = null; // transparent
-    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(0, 2, 5);
-    camera.lookAt(0, 0, 0);
-
-    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
-
-    // Lighting
-    const ambientLight = new THREE.AmbientLight(0x404060);
-    scene.add(ambientLight);
-    const directionalLight = new THREE.DirectionalLight(0xffaa66, 1);
-    directionalLight.position.set(2, 5, 3);
-    scene.add(directionalLight);
-    const backLight = new THREE.PointLight(0xff4d2e, 0.5);
-    backLight.position.set(-1, 1, -2);
-    scene.add(backLight);
-
-    // Create a cool rotating dumbbell group
-    const group = new THREE.Group();
-
-    // Bar (cylinder)
-    const barGeo = new THREE.CylinderGeometry(0.2, 0.2, 2.5, 32);
-    const barMat = new THREE.MeshStandardMaterial({ color: 0xccccdd, metalness: 0.7, roughness: 0.3 });
-    const bar = new THREE.Mesh(barGeo, barMat);
-    group.add(bar);
-
-    // Left weight plate (cylinder)
-    const weightGeo = new THREE.CylinderGeometry(0.8, 0.8, 0.4, 48);
-    const weightMat = new THREE.MeshStandardMaterial({ color: 0xff4d2e, metalness: 0.6, roughness: 0.4, emissive: 0x331100 });
-    const leftWeight = new THREE.Mesh(weightGeo, weightMat);
-    leftWeight.position.x = -1.3;
-    group.add(leftWeight);
+    <div id="canvas-container"></div>
     
-    // Right weight plate
-    const rightWeight = new THREE.Mesh(weightGeo, weightMat);
-    rightWeight.position.x = 1.3;
-    group.add(rightWeight);
-    
-    // Add some small rings for detail
-    const ringGeo = new THREE.TorusGeometry(0.85, 0.05, 32, 100);
-    const ringMat = new THREE.MeshStandardMaterial({ color: 0xffaa66, metalness: 0.8 });
-    const leftRing = new THREE.Mesh(ringGeo, ringMat);
-    leftRing.rotation.x = Math.PI / 2;
-    leftRing.position.x = -1.3;
-    group.add(leftRing);
-    
-    const rightRing = new THREE.Mesh(ringGeo, ringMat);
-    rightRing.rotation.x = Math.PI / 2;
-    rightRing.position.x = 1.3;
-    group.add(rightRing);
-    
-    scene.add(group);
-
-    // Add floating particles
-    const particleCount = 800;
-    const particlesGeometry = new THREE.BufferGeometry();
-    const particlesPositions = new Float32Array(particleCount * 3);
-    for (let i = 0; i < particleCount; i++) {
-      particlesPositions[i*3] = (Math.random() - 0.5) * 20;
-      particlesPositions[i*3+1] = (Math.random() - 0.5) * 10;
-      particlesPositions[i*3+2] = (Math.random() - 0.5) * 15 - 5;
-    }
-    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(particlesPositions, 3));
-    const particlesMaterial = new THREE.PointsMaterial({
-      color: 0xff4d2e,
-      size: 0.05,
-      transparent: true,
-      opacity: 0.5,
-      blending: THREE.AdditiveBlending
-    });
-    const particles = new THREE.Points(particlesGeometry, particlesMaterial);
-    scene.add(particles);
-
-    // Animation loop
-    let time = 0;
-    function animate() {
-      requestAnimationFrame(animate);
-      time += 0.01;
-      group.rotation.y = time * 0.5;
-      group.rotation.x = Math.sin(time * 0.3) * 0.2;
-      group.rotation.z = Math.cos(time * 0.4) * 0.1;
-      
-      particles.rotation.y = time * 0.05;
-      particles.rotation.x = time * 0.03;
-      
-      renderer.render(scene, camera);
-    }
-    animate();
-
-    // Resize handler
-    window.addEventListener('resize', onWindowResize, false);
-    function onWindowResize() {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    }
-  </script>
-
-  <script>
-    // Cart functionality
-    let cart = JSON.parse(localStorage.getItem('gymCart')) || [];
-    const cartCountSpan = document.getElementById('cartCount');
-    const cartModal = document.getElementById('cartModal');
-    const cartItemsDiv = document.getElementById('cartItemsList');
-    const cartTotalSpan = document.getElementById('cartTotalPrice');
-    
-    function updateCartUI() {
-      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-      cartCountSpan.textContent = totalItems;
-      localStorage.setItem('gymCart', JSON.stringify(cart));
-      
-      if (cartItemsDiv) {
-        if (cart.length === 0) {
-          cartItemsDiv.innerHTML = '<div class="empty-cart-msg">Your cart is empty. Add some gear!</div>';
-          cartTotalSpan.textContent = '$0.00';
-          return;
-        }
-        let html = '';
-        let total = 0;
-        cart.forEach((item, idx) => {
-          total += item.price * item.quantity;
-          html += `
-            <div class="cart-item">
-              <span>${item.name} x${item.quantity}</span>
-              <span>$${(item.price * item.quantity).toFixed(2)}</span>
-              <button class="remove-item" data-index="${idx}" style="background:none; border:none; color:#ff4d2e; cursor:pointer;"><i class="fas fa-trash-alt"></i></button>
+    <div class="content">
+        <header class="header">
+            <div class="logo">MOMOS<span>HUB</span></div>
+            <nav class="nav">
+                <a href="#">Home</a>
+                <a href="#">Menu</a>
+                <a href="#">Our Cart</a>
+                <a href="#">Contact</a>
+            </nav>
+        </header>
+        
+        <div class="hero">
+            <h1>
+                <span class="orange">Steamy</span> Momos<br>
+                <span class="teal">Iced</span> Coffee
+            </h1>
+            <p>✨ Handcrafted happiness on wheels ✨</p>
+            <div class="cta-buttons">
+                <button class="btn btn-primary" id="order-now">Order Now 🥟</button>
+                <button class="btn btn-secondary" id="explore-menu">Explore Menu ☕</button>
             </div>
-          `;
+        </div>
+        
+        <footer class="footer">
+            <div>📍 Find us at Food Street</div>
+            <div class="cart-indicator" id="cart-btn">
+                <span>🛒</span> Your Cart • 0
+            </div>
+        </footer>
+    </div>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+        import gsap from 'gsap';
+        import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+        // Register GSAP plugin
+        gsap.registerPlugin(ScrollTrigger);
+
+        // --- Setup Scene, Camera, Renderer ---
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color('#1a1a1a'); // dark base, we'll add gradient via CSS or fog
+        
+        // Add fog for depth
+        scene.fog = new THREE.FogExp2('#1a1a1a', 0.015);
+
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(5, 3, 8);
+        camera.lookAt(0, 1, 0);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        container.appendChild(renderer.domElement);
+
+        // --- Controls (limited to give a nice view) ---
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.autoRotate = true;
+        controls.autoRotateSpeed = 0.8;
+        controls.enableZoom = true;
+        controls.enablePan = false;
+        controls.maxPolarAngle = Math.PI / 2.2;
+        controls.minPolarAngle = Math.PI / 6;
+        controls.target.set(0, 1.5, 0);
+
+        // --- Lighting (Warm orange + Cool teal) ---
+        // Ambient base
+        scene.add(new THREE.AmbientLight(0x404060, 0.4));
+        
+        // Main warm light (momos)
+        const warmLight = new THREE.PointLight(0xFF7A2F, 1.5, 20);
+        warmLight.position.set(2, 3, 2);
+        warmLight.castShadow = true;
+        warmLight.shadow.mapSize.width = 1024;
+        warmLight.shadow.mapSize.height = 1024;
+        scene.add(warmLight);
+        
+        // Cool fill light (coffee)
+        const coolLight = new THREE.PointLight(0x00B4B3, 1.2, 20);
+        coolLight.position.set(-2, 2, 3);
+        scene.add(coolLight);
+        
+        // Back rim light
+        const backLight = new THREE.PointLight(0xFFFFFF, 0.8);
+        backLight.position.set(-1, 4, -3);
+        scene.add(backLight);
+        
+        // Additional fill
+        const fillLight = new THREE.DirectionalLight(0xccddff, 0.5);
+        fillLight.position.set(1, 2, 1);
+        scene.add(fillLight);
+
+        // Add a subtle grid floor and reflective plane
+        const gridHelper = new THREE.GridHelper(15, 20, 0xFF7A2F, 0x3E2723);
+        gridHelper.position.y = -0.01;
+        scene.add(gridHelper);
+        
+        // Reflective disc
+        const discGeometry = new THREE.CylinderGeometry(3.5, 3.5, 0.05, 64);
+        const discMaterial = new THREE.MeshStandardMaterial({ 
+            color: 0x3E2723, 
+            roughness: 0.3, 
+            metalness: 0.1,
+            transparent: true,
+            opacity: 0.7
         });
-        cartItemsDiv.innerHTML = html;
-        cartTotalSpan.textContent = `$${total.toFixed(2)}`;
-        document.querySelectorAll('.remove-item').forEach(btn => {
-          btn.addEventListener('click', (e) => {
-            const idx = parseInt(btn.dataset.index);
-            cart.splice(idx, 1);
-            updateCartUI();
-          });
+        const disc = new THREE.Mesh(discGeometry, discMaterial);
+        disc.position.y = 0;
+        disc.receiveShadow = true;
+        disc.rotation.x = 0;
+        scene.add(disc);
+
+        // --- Create Stylized Momos (Steamer with dumplings) using primitives ---
+        function createMomosGroup() {
+            const group = new THREE.Group();
+            
+            // Bamboo steamer base (cylinder)
+            const steamerBaseGeo = new THREE.CylinderGeometry(1.6, 1.6, 0.15, 32);
+            const steamerBaseMat = new THREE.MeshStandardMaterial({ color: 0x8B5A2B, roughness: 0.7, bumpMap: new THREE.CanvasTexture(generateWoodGrainCanvas()) });
+            const base = new THREE.Mesh(steamerBaseGeo, steamerBaseMat);
+            base.position.y = 0.1;
+            base.receiveShadow = true;
+            base.castShadow = true;
+            group.add(base);
+            
+            // Steamer rim
+            const rimGeo = new THREE.TorusGeometry(1.6, 0.05, 16, 64);
+            const rimMat = new THREE.MeshStandardMaterial({ color: 0xA0522D, roughness: 0.5 });
+            const rim = new THREE.Mesh(rimGeo, rimMat);
+            rim.position.y = 0.18;
+            rim.rotation.x = Math.PI / 2;
+            rim.receiveShadow = true;
+            group.add(rim);
+            
+            // Lid (slightly raised for animation)
+            const lidGeo = new THREE.CylinderGeometry(1.55, 1.55, 0.08, 32);
+            const lidMat = new THREE.MeshStandardMaterial({ color: 0xCD853F, roughness: 0.6 });
+            const lid = new THREE.Mesh(lidGeo, lidMat);
+            lid.position.y = 0.35;
+            lid.castShadow = true;
+            lid.receiveShadow = true;
+            group.add(lid);
+            
+            const lidKnobGeo = new THREE.SphereGeometry(0.12, 16);
+            const lidKnobMat = new THREE.MeshStandardMaterial({ color: 0x8B4513 });
+            const knob = new THREE.Mesh(lidKnobGeo, lidKnobMat);
+            knob.position.y = 0.48;
+            knob.castShadow = true;
+            group.add(knob);
+            
+            // Momos (dumplings) inside - half visible
+            const momoMat = new THREE.MeshStandardMaterial({ color: 0xF5DEB3, roughness: 0.4, emissive: new THREE.Color(0x332211), emissiveIntensity: 0.1 });
+            for (let i = 0; i < 5; i++) {
+                const momoGeo = new THREE.SphereGeometry(0.25, 16);
+                const momo = new THREE.Mesh(momoGeo, momoMat);
+                const angle = (i / 5) * Math.PI * 2;
+                momo.position.set(Math.cos(angle)*0.9, 0.28, Math.sin(angle)*0.9);
+                momo.scale.set(1.0, 0.7, 0.9);
+                momo.castShadow = true;
+                momo.receiveShadow = true;
+                group.add(momo);
+                
+                // little fold detail
+                const foldGeo = new THREE.TorusGeometry(0.12, 0.03, 8, 20);
+                const foldMat = new THREE.MeshStandardMaterial({ color: 0xEEDDCC });
+                const fold = new THREE.Mesh(foldGeo, foldMat);
+                fold.position.set(Math.cos(angle)*1.05, 0.35, Math.sin(angle)*1.05);
+                fold.rotation.x = Math.PI/2;
+                fold.rotation.z = angle;
+                fold.scale.set(0.8, 0.8, 0.8);
+                group.add(fold);
+            }
+            
+            // Steam particles (will be animated separately)
+            return group;
+        }
+
+        // Helper to generate simple wood grain canvas
+        function generateWoodGrainCanvas() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 64;
+            canvas.height = 64;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#8B5A2B';
+            ctx.fillRect(0, 0, 64, 64);
+            ctx.strokeStyle = '#5D3A1A';
+            ctx.lineWidth = 2;
+            for (let i = 0; i < 8; i++) {
+                ctx.beginPath();
+                ctx.moveTo(i*8, 0);
+                ctx.lineTo(i*8+10, 64);
+                ctx.stroke();
+            }
+            return canvas;
+        }
+
+        // Create Cold Coffee Glass
+        function createCoffeeGroup() {
+            const group = new THREE.Group();
+            
+            // Glass body
+            const glassGeo = new THREE.CylinderGeometry(0.8, 0.7, 1.8, 32);
+            const glassMat = new THREE.MeshStandardMaterial({ 
+                color: 0xDDEEFF, 
+                transparent: true, 
+                opacity: 0.35, 
+                roughness: 0.08,
+                metalness: 0.1,
+                emissive: new THREE.Color(0x112233),
+                emissiveIntensity: 0.2
+            });
+            const glass = new THREE.Mesh(glassGeo, glassMat);
+            glass.position.y = 1.0;
+            glass.castShadow = true;
+            glass.receiveShadow = true;
+            group.add(glass);
+            
+            // Coffee liquid
+            const coffeeGeo = new THREE.CylinderGeometry(0.72, 0.65, 1.4, 32);
+            const coffeeMat = new THREE.MeshStandardMaterial({ color: 0x3E2723, roughness: 0.3, emissive: new THREE.Color(0x221100), emissiveIntensity: 0.2 });
+            const coffee = new THREE.Mesh(coffeeGeo, coffeeMat);
+            coffee.position.y = 0.9;
+            coffee.castShadow = true;
+            coffee.receiveShadow = true;
+            group.add(coffee);
+            
+            // Ice cubes
+            const iceMat = new THREE.MeshStandardMaterial({ color: 0xCCEEFF, transparent: true, opacity: 0.7, roughness: 0.1 });
+            for (let i = 0; i < 4; i++) {
+                const iceGeo = new THREE.BoxGeometry(0.25, 0.25, 0.25);
+                const ice = new THREE.Mesh(iceGeo, iceMat);
+                ice.position.set(0.3 + i*0.15, 1.1 + i*0.1, 0.2);
+                ice.rotation.y = i * 0.5;
+                ice.rotation.x = 0.3;
+                ice.castShadow = true;
+                ice.receiveShadow = true;
+                group.add(ice);
+            }
+            
+            // Straw
+            const strawGeo = new THREE.CylinderGeometry(0.05, 0.05, 2.2, 8);
+            const strawMat = new THREE.MeshStandardMaterial({ color: 0xFF4500 });
+            const straw = new THREE.Mesh(strawGeo, strawMat);
+            straw.position.set(0.5, 1.6, 0.3);
+            straw.rotation.z = 0.2;
+            straw.rotation.x = 0.1;
+            straw.castShadow = true;
+            group.add(straw);
+            
+            // Condensation drops (small spheres)
+            const dropMat = new THREE.MeshStandardMaterial({ color: 0xFFFFFF, transparent: true, opacity: 0.6 });
+            for (let i = 0; i < 8; i++) {
+                const drop = new THREE.Mesh(new THREE.SphereGeometry(0.03, 4), dropMat);
+                drop.position.set(0.6, 0.8 + i*0.15, 0.5);
+                group.add(drop);
+            }
+            
+            return group;
+        }
+
+        // Create floating spice particles and steam
+        function createParticles() {
+            const particles = new THREE.Group();
+            
+            // Steam (white puffs)
+            const steamMat = new THREE.MeshStandardMaterial({ 
+                color: 0xFFFFFF, 
+                transparent: true, 
+                opacity: 0.4, 
+                emissive: new THREE.Color(0xAAAAAA),
+                emissiveIntensity: 0.5
+            });
+            for (let i = 0; i < 12; i++) {
+                const puff = new THREE.Mesh(new THREE.SphereGeometry(0.12 + Math.random()*0.1, 5), steamMat);
+                puff.position.set((Math.random()-0.5)*3, 0.8 + Math.random()*1.5, (Math.random()-0.5)*3);
+                puff.userData = { speed: 0.005 + Math.random()*0.01, offset: Math.random()*10 };
+                particles.add(puff);
+            }
+            
+            // Spices (orange/red small cubes)
+            const spiceMat = new THREE.MeshStandardMaterial({ color: 0xFF5500, emissive: new THREE.Color(0x441100), emissiveIntensity: 0.3 });
+            for (let i = 0; i < 30; i++) {
+                const spice = new THREE.Mesh(new THREE.DodecahedronGeometry(0.04), spiceMat);
+                spice.position.set((Math.random()-0.5)*5, 0.2 + Math.random()*2, (Math.random()-0.5)*5);
+                spice.userData = { speed: 0.002, angle: Math.random()*Math.PI*2 };
+                particles.add(spice);
+            }
+            
+            return particles;
+        }
+
+        // Build scene
+        const momosGroup = createMomosGroup();
+        momosGroup.position.set(-1.8, 0.2, 0);
+        scene.add(momosGroup);
+        
+        const coffeeGroup = createCoffeeGroup();
+        coffeeGroup.position.set(1.8, 0.1, -0.5);
+        scene.add(coffeeGroup);
+        
+        const particlesGroup = createParticles();
+        scene.add(particlesGroup);
+        
+        // Add some decorative hanging lights or background elements
+        const bgSphereGeo = new THREE.SphereGeometry(10, 32, 16);
+        const bgSphereMat = new THREE.MeshStandardMaterial({ color: 0x1a1a2e, side: THREE.BackSide, emissive: new THREE.Color(0x101020), emissiveIntensity: 0.5 });
+        const bgSphere = new THREE.Mesh(bgSphereGeo, bgSphereMat);
+        scene.add(bgSphere);
+
+        // --- Animations with GSAP ---
+        
+        // Initial entrance animation
+        gsap.from(momosGroup.position, { y: -1, duration: 1.5, ease: "elastic.out(1, 0.4)" });
+        gsap.from(coffeeGroup.position, { y: -1, duration: 1.5, ease: "elastic.out(1, 0.4)", delay: 0.2 });
+        gsap.from('.hero h1', { opacity: 0, y: 50, duration: 1, delay: 0.5 });
+        gsap.from('.hero p', { opacity: 0, y: 30, duration: 0.8, delay: 0.7 });
+        gsap.from('.btn', { opacity: 0, scale: 0.5, duration: 0.6, stagger: 0.1, delay: 0.9 });
+        
+        // Continuous floating animation for groups
+        gsap.to(momosGroup.position, { y: 0.35, duration: 2, repeat: -1, yoyo: true, ease: "sine.inOut" });
+        gsap.to(coffeeGroup.position, { y: 0.25, duration: 2.2, repeat: -1, yoyo: true, ease: "sine.inOut", delay: 0.3 });
+        
+        // Animate steam particles
+        particlesGroup.children.forEach((part, i) => {
+            if (part.material && part.material.color.getHex() === 0xFFFFFF) {
+                gsap.to(part.position, {
+                    y: part.position.y + 1.2,
+                    duration: 2 + i*0.2,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut",
+                    delay: i * 0.1
+                });
+                gsap.to(part.scale, {
+                    x: 1.5, y: 1.5, z: 1.5,
+                    duration: 2,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut"
+                });
+            }
         });
-      }
-    }
-    
-    function addToCart(product) {
-      const existing = cart.find(item => item.id === product.id);
-      if (existing) {
-        existing.quantity += 1;
-      } else {
-        cart.push({ ...product, quantity: 1 });
-      }
-      updateCartUI();
-    }
-    
-    document.querySelectorAll('.btn-add-cart').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const card = btn.closest('.product-card');
-        const id = parseInt(card.dataset.id);
-        const name = card.dataset.name;
-        const price = parseFloat(card.dataset.price);
-        addToCart({ id, name, price });
-        // simple animation feedback
-        btn.style.transform = 'scale(0.95)';
-        setTimeout(() => btn.style.transform = '', 200);
-      });
-    });
-    
-    document.querySelectorAll('.btn-plan').forEach(btn => {
-      btn.addEventListener('click', () => {
-        alert(`Thank you for choosing ${btn.dataset.plan}! Our team will contact you shortly.`);
-      });
-    });
-    
-    document.getElementById('contactForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      alert('Message sent! We will get back to you soon.');
-      e.target.reset();
-    });
-    
-    // Cart modal
-    const cartBtn = document.getElementById('cartIconBtn');
-    const closeCart = document.querySelector('.close-cart');
-    const clearCartBtn = document.getElementById('clearCartBtn');
-    const checkoutBtn = document.getElementById('checkoutBtn');
-    
-    cartBtn.addEventListener('click', () => {
-      updateCartUI();
-      cartModal.style.display = 'flex';
-    });
-    closeCart.addEventListener('click', () => cartModal.style.display = 'none');
-    window.addEventListener('click', (e) => {
-      if (e.target === cartModal) cartModal.style.display = 'none';
-    });
-    clearCartBtn.addEventListener('click', () => {
-      cart = [];
-      updateCartUI();
-    });
-    checkoutBtn.addEventListener('click', () => {
-      if (cart.length === 0) alert('Your cart is empty!');
-      else alert('Checkout simulation: Thank you for your purchase!');
-    });
-    
-    updateCartUI();
-    
-    // Mobile menu toggle
-    const mobileBtn = document.getElementById('mobileMenuBtn');
-    const navLinks = document.getElementById('navLinks');
-    mobileBtn.addEventListener('click', () => {
-      if (navLinks.style.display === 'flex') {
-        navLinks.style.display = 'none';
-      } else {
-        navLinks.style.display = 'flex';
-        navLinks.style.flexDirection = 'column';
-        navLinks.style.position = 'absolute';
-        navLinks.style.top = '70px';
-        navLinks.style.left = '0';
-        navLinks.style.width = '100%';
-        navLinks.style.backgroundColor = 'rgba(10,10,18,0.95)';
-        navLinks.style.padding = '1rem';
-        navLinks.style.backdropFilter = 'blur(10px)';
-      }
-    });
-    window.addEventListener('resize', () => {
-      if (window.innerWidth > 768) {
-        navLinks.style.display = 'flex';
-        navLinks.style.flexDirection = 'row';
-        navLinks.style.position = 'relative';
-        navLinks.style.top = 'auto';
-        navLinks.style.width = 'auto';
-        navLinks.style.backgroundColor = 'transparent';
-        navLinks.style.padding = '0';
-      } else if (navLinks.style.display !== 'flex') {
-        navLinks.style.display = 'none';
-      }
-    });
-  </script>
+        
+        // Rotate spices slowly
+        particlesGroup.children.forEach(spice => {
+            if (spice.geometry.type === 'DodecahedronGeometry') {
+                gsap.to(spice.rotation, {
+                    y: Math.PI * 2,
+                    duration: 8,
+                    repeat: -1,
+                    ease: "none"
+                });
+            }
+        });
+
+        // Scroll-based interaction (simulate with GSAP ScrollTrigger using mouse wheel)
+        // Since we don't have actual scroll, we'll use a dummy scroll trigger to change autoRotate speed and light intensity
+        ScrollTrigger.create({
+            trigger: "body",
+            start: "top top",
+            end: "bottom bottom",
+            scrub: 0.5,
+            onUpdate: (self) => {
+                const progress = self.progress;
+                controls.autoRotateSpeed = 0.8 + progress * 1.5;
+                warmLight.intensity = 1.5 - progress * 0.5;
+                coolLight.intensity = 1.2 + progress * 0.8;
+            }
+        });
+
+        // Button interactions (simple alerts for demo)
+        document.getElementById('order-now').addEventListener('click', () => {
+            gsap.to(momosGroup.scale, { x: 1.2, y: 1.2, z: 1.2, duration: 0.2, yoyo: true, repeat: 1 });
+            gsap.to(coffeeGroup.scale, { x: 1.2, y: 1.2, z: 1.2, duration: 0.2, yoyo: true, repeat: 1, delay: 0.1 });
+            setTimeout(() => alert('🥟☕ Order placed! (Demo)'), 300);
+        });
+        document.getElementById('explore-menu').addEventListener('click', () => {
+            alert('Explore our full menu: Steamed, Fried, Tandoori Momos & Cold Coffees!');
+        });
+        document.getElementById('cart-btn').addEventListener('click', () => {
+            alert('🛒 Your cart is empty. Add some delicious momos!');
+        });
+
+        // --- Animation Loop ---
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            controls.update(); // for autoRotate
+            
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // --- Handle Window Resize ---
+        window.addEventListener('resize', onWindowResize, false);
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        // Small fix for scroll trigger to work with wheel
+        window.addEventListener('wheel', () => {
+            ScrollTrigger.refresh();
+        });
+
+        console.log('🍜 Momos Hub 3D Cart Loaded!');
+    </script>
 </body>
 </html>
